@@ -1,6 +1,6 @@
 # Ignore all obj and bin folders
-/Breach/obj/
-/Breach/bin/
+/BraketsEditor/obj/
+/BraketsEditor/bin/
 /MonoGame.ImGuiNet/obj/
 /MonoGame.ImGuiNet/bin/
 
