@@ -1,0 +1,18 @@
+using Microsoft.Xna.Framework;
+using BraketsEngine;
+
+namespace &NAMESPACE&;
+
+public class &NAME& : Sprite
+{
+    public &NAME&()
+    : base("&TAG&", new Vector2(&POSX&, &POSY&), "&TEXTURE_NAME&", &LAYER&, true)
+    {
+
+    }
+
+    public override void Update(float dt)
+    {
+
+    }
+}

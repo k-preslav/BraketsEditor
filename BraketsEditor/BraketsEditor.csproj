@@ -16,6 +16,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+      <None Include="content/templates/**" CopyToOutputDirectory="PreserveNewest" />
       <Content Include="content\**\*" CopyToOutputDirectory="PreserveNewest" />
       <Content Include="projects\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
@@ -24,6 +25,7 @@
     <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.ImGuiNet" Version="1.0.5" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame.ImGuiNet\Monogame.ImGuiNet.csproj" />

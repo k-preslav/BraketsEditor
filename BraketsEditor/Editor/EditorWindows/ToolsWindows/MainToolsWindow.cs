@@ -21,7 +21,7 @@ public class MainToolsWindow
         parent.Pos = new Vector2(Globals.DEBUG_UI.GetWindow("Objects").Size.X, Globals.DEBUG_UI_MENUBAR_SIZE_Y);
         parent.Size = new Vector2(Globals.APP_Width - parent.Pos.X, Globals.APP_Height - Globals.DEBUG_UI_MENUBAR_SIZE_Y);
         
-        if (ImGui.BeginTabBar("ToolsTapBar"))
+        if (ImGui.BeginTabBar("ToolsTabBar"))
         {
             foreach (var tab in tabs)
             {

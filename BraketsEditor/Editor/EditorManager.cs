@@ -20,9 +20,15 @@ public class EditorManager
         Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.Draw);
 
         DebugWindow objectsWindow = new DebugWindow("Objects", overridePos: true, overrideSize: true,
-            flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove
+            flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar
         );
-        objectsWindow.OnDraw += (DebugWindow parent) => {objectsWindowDraw.Draw(parent);};
+        objectsWindow.OnDraw += (DebugWindow parent) => {ObjectsWindow.Draw(parent);};
+        ObjectsWindow.Refresh();
+
+        DebugWindow newObjWindow = new DebugWindow("Add new Object", overridePos: false, overrideSize: false,
+            closable:true, visible:false, flags: ImGuiWindowFlags.NoCollapse
+        );
+        newObjWindow.OnDraw += (DebugWindow parent) => {NewObjectWindow.Draw();};
 
         DebugWindow toolsWindow = new DebugWindow("Tools", overridePos: true, overrideSize: true,
             flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar);
@@ -33,8 +39,11 @@ public class EditorManager
             view = DiagnosticsView.Draw
         });
 
+        ObjectCreator.SetupFileWatcher();
+
         Globals.DEBUG_UI.AddWindow(objectsWindow);
         Globals.DEBUG_UI.AddWindow(toolsWindow);
+        Globals.DEBUG_UI.AddWindow(newObjWindow);
         
         bridgeServer = new BridgeServer(8000);
         bridgeServer.OnRecieve += OnBridgeDataRecive;
@@ -50,15 +59,18 @@ public class EditorManager
         DiagnosticsView.currentFps = float.Parse(split[0]);
         DiagnosticsView.currentMemory = float.Parse(split[1]);
         DiagnosticsView.currentSpriteCount = float.Parse(split[2]);
+        DiagnosticsView.currentGC = float.Parse(split[3]);
+        DiagnosticsView.currentThreadsCount = float.Parse(split[4]);
+        DiagnosticsView.currentDt = float.Parse(split[5]);
     }
 
-    public void Update(float dt)
+    public void Update(float dt)            
     {
 
     }
 
     internal void Stop()
     {
-        
+                
     }
 }

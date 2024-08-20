@@ -12,30 +12,46 @@ public class GlobalMenuBar
         {
             if (ImGui.BeginMenu("File"))
             {
-                if (ImGui.MenuItem("New"))
+                if (ImGui.MenuItem("New..."))
                 {
                     // Handle new menu item click
                 }
-                if (ImGui.MenuItem("Open"))
+                if (ImGui.MenuItem("Open..."))
                 {
                     // Handle open menu item click
                 }
+                ImGui.Separator();
+                if (ImGui.MenuItem("Open 'Content' in File Explorer"))
+                {
+                    OpenInExplorer.OpenContentFolder();
+                }
+                if (ImGui.MenuItem("Open 'Game' in File Explorer"))
+                {
+                    OpenInExplorer.OpenGameFolder();
+                }
+                ImGui.Separator();
                 if (ImGui.MenuItem("Exit"))
                 {
                     Globals.ENGINE_Main.Exit();
                 }
                 ImGui.EndMenu();
             }
-            if (ImGui.BeginMenu("Settings"))
+            if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.BeginMenu("Set Style"))
+                if (ImGui.MenuItem("Application Properties"))
+                {
+                    Debug.Log("Change Application Props");
+                }
+                if (ImGui.MenuItem("Preferences"))
+                {
+                    Debug.Log("Change Editor Preferences");
+                }
+                ImGui.Separator();
+                if (ImGui.BeginMenu("Style"))
                 {
                     if (ImGui.MenuItem("Visual Studio")) DebugWindowStyle.VisualStudio();
-                    if (ImGui.MenuItem("Dracula")) DebugWindowStyle.Dracula();
-                    if (ImGui.MenuItem("Future Dark")) DebugWindowStyle.FutureDark();
-                    if (ImGui.MenuItem("Material Flat")) DebugWindowStyle.MaterialFlat();
-                    if (ImGui.MenuItem("MS Windows")) DebugWindowStyle.MSWindows();
                     if (ImGui.MenuItem("Classic Valve")) DebugWindowStyle.ClassicValve();
+                    
                     ImGui.EndMenu();
                 }
                 ImGui.EndMenu();

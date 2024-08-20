@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using BraketsEditor;
 using FontStashSharp;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
@@ -13,17 +17,19 @@ namespace BraketsEngine;
 public class DebugWindow
 {
     public Action<DebugWindow> OnDraw;
+    public Action OnUpdate;
     public string Name;
     public Vector2 Pos;
     public Vector2 Size;
+    public bool Visible;
     
     private ImGuiWindowFlags _flags;
-    private bool _visible;
     private bool _overridePos;
     private bool _overrideSize;
+    private bool _closable;
 
     public DebugWindow(string name, bool overridePos=false, bool overrideSize=false, 
-        int posx=0, int posy=0, int width=320, int height=180, 
+        int posx=0, int posy=0, int width=320, int height=180, bool closable=false,
         bool visible=true, ImGuiWindowFlags flags=ImGuiWindowFlags.None)
     {
         this.Name = name;
@@ -34,21 +40,30 @@ public class DebugWindow
         this._overridePos = overridePos;
         this._overrideSize = overrideSize;
 
-        this._visible = visible;
+        this.Visible = visible;
+        this._closable = closable;
     }
 
     public virtual void Draw(ImFontPtr font)
     {
-        if (OnDraw is not null)
+        if (OnDraw is not null && this.Visible)
         {
             if (_overrideSize) ImGui.SetNextWindowSize(this.Size.ToNumerics());
             if (_overridePos) ImGui.SetNextWindowPos(this.Pos.ToNumerics());
-            ImGui.Begin(this.Name, this._flags);
+            
+            if (_closable) ImGui.Begin(this.Name, ref Visible, this._flags);
+            else ImGui.Begin(this.Name, this._flags);
+            
             ImGui.PushFont(font);
-            OnDraw.Invoke(this);
+            OnDraw?.Invoke(this);
             ImGui.PopFont();
             ImGui.End();
         }
+    }
+
+    public virtual void Update()
+    {
+        OnUpdate?.Invoke();
     }
 }
 
@@ -77,11 +92,19 @@ public class DebugUI
         _renderer.BeginLayout(gameTime);
 
         _menuBar?.Invoke();
-        foreach (var window in _windows)
+        foreach (var window in _windows.ToList())
         {
             window.Draw(_debug_windows_font);
         }
         _renderer.EndLayout();
+    }
+
+    public void UpdateWindow()
+    {
+        foreach (var win in _windows)
+        {
+            win.Update();
+        }
     }
     
     public void AddWindow(DebugWindow win)

@@ -46,9 +46,10 @@ public static class Globals
     #endregion
 
     #region EDITOR
-    public static string projectPath = "../../projects/Breach/Breach/";
-    public static string projectGameFolderPath = "../../projects/Breach/Breach/Game/";
-    public static string projectContentFolderPath = "../../projects/Breach/Breach/content/";
+    public static string projectName = "Test";
+    public static string projectPath = "../../projects/Test/Test/";
+    public static string projectGameFolderPath = "../../projects/Test/Test/Game/";
+    public static string projectContentFolderPath = "../../projects/Test/Test/content/";
 
     #endregion
 
