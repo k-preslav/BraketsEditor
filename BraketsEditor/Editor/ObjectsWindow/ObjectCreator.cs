@@ -55,7 +55,7 @@ public class ObjectCreator
         name = name.Replace(".cs", "");
         
         // get the template
-        string template = await File.ReadAllTextAsync($"{Directory.GetCurrentDirectory()}/content/templates/code/SpriteTemplate.txt");
+        string template = await File.ReadAllTextAsync($"{Globals.CurrentDir}/content/templates/code/SpriteTemplate.txt");
         
         // process it
         template = template

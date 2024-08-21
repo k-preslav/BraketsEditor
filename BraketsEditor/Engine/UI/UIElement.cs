@@ -55,10 +55,10 @@ public abstract class UIElement : Sprite
         this.margin = new Vector2(marginX, marginY);
         this.padding = new Vector2(padX, padY);
 
-        this._font = ResourceLoader.GetFont(fontName, fontSize);
+        this._font = ResourceManager.GetFont(fontName, fontSize);
         _curFontName = fontName;
 
-        base.texture = ResourceLoader.GetTexture(base.textureName);
+        base.texture = ResourceManager.GetTexture(base.textureName);
         this.Size = new Vector2(base.texture.Width, base.texture.Height);
     }
 
@@ -144,12 +144,12 @@ public abstract class UIElement : Sprite
     public void SetFont(string name)
     {
         int curSize = (int)_font.FontSize;
-        _font = ResourceLoader.GetFont(name, curSize);
+        _font = ResourceManager.GetFont(name, curSize);
         _curFontName = name;
     }
     public void SetFontSize(int size)
     {
-        _font = ResourceLoader.GetFont(_curFontName, size);
+        _font = ResourceManager.GetFont(_curFontName, size);
     }
     public void SetAlign(UIAllign allign, Vector2 margin)
     {

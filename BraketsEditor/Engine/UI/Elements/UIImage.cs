@@ -10,6 +10,6 @@ public class UIImage : UIElement
     public void SetImage(string name)
     {
         base.textureName = name;
-        base.texture = ResourceLoader.GetTexture(textureName);
+        base.texture = ResourceManager.GetTexture(textureName);
     }
 }

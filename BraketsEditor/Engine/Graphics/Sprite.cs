@@ -42,7 +42,7 @@ public class Sprite
 
     public void Load()
     {
-        this.texture = ResourceLoader.GetTexture(textureName);
+        this.texture = ResourceManager.GetTexture(textureName);
         Globals.ENGINE_Main.AddSprite(this);
     }
 

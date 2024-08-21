@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -78,7 +79,7 @@ public class DebugUI
     {
         _renderer = new ImGuiRenderer(owner);
 
-        this._debug_windows_font = ImGui.GetIO().Fonts.AddFontFromFileTTF("content/fonts/NeorisMedium.ttf", 20);
+        this._debug_windows_font = ImGui.GetIO().Fonts.AddFontFromFileTTF($"{Globals.CurrentDir}/content/fonts/NeorisMedium.ttf", 20);
         // TODO: Make the font size 'settable' thru settings
 
         _renderer.RebuildFontAtlas();
@@ -144,19 +145,19 @@ public class DebugUI
         }
 
         sp.DrawString(
-            ResourceLoader.GetFont("NeorisMedium", 32), $"{_currentFps.ToString("0.0")} fps", 
+            ResourceManager.GetFont("NeorisMedium", 32), $"{_currentFps.ToString("0.0")} fps", 
             new Vector2(10, 10), Color.White * 0.75f, effect: FontSystemEffect.Stroked, effectAmount: 3
         );
         sp.DrawString(
-            ResourceLoader.GetFont("NeorisMedium", 24), $"Version: {Globals.APP_Version}", 
+            ResourceManager.GetFont("NeorisMedium", 24), $"Version: {Globals.APP_Version}", 
             new Vector2(10,45), Color.White * 0.75f, effect: FontSystemEffect.Stroked, effectAmount: 2
         );
         sp.DrawString(
-            ResourceLoader.GetFont("NeorisMedium", 24), $"VSync: {Globals.APP_VSync}", 
+            ResourceManager.GetFont("NeorisMedium", 24), $"VSync: {Globals.APP_VSync}", 
             new Vector2(10, 70), Color.White * 0.75f, effect: FontSystemEffect.Stroked, effectAmount: 2
         );
         sp.DrawString(
-            ResourceLoader.GetFont("NeorisMedium", 24), $"Sprites: {Globals.ENGINE_Main.Sprites.Count}", 
+            ResourceManager.GetFont("NeorisMedium", 24), $"Sprites: {Globals.ENGINE_Main.Sprites.Count}", 
             new Vector2(10, 95), Color.White * 0.75f, effect: FontSystemEffect.Stroked, effectAmount: 2
         );
     }

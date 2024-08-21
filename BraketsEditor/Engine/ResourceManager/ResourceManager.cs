@@ -73,7 +73,7 @@ public class BSong
     public void SetVolume(float value) => MediaPlayer.Volume = value / 100.0f;
 }
 
-public static class ResourceLoader
+public static class ResourceManager
 {
     private static List<BTexture> _textures = new List<BTexture>();
     private static List<Level> _levels = new List<Level>();
@@ -85,7 +85,7 @@ public static class ResourceLoader
 
     public static async void Load(ResourceType type, string filename)
     {
-        string path = "content/";
+        string path = $"{Globals.CurrentDir}/content/";
         if (type is ResourceType.Texture)
         {
             path += $"images/{filename}.png";

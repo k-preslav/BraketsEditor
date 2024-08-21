@@ -14,7 +14,7 @@ public class GlobalMenuBar
             {
                 if (ImGui.MenuItem("New..."))
                 {
-                    // Handle new menu item click
+                    ProjectCreator.OpenProjectCreator();
                 }
                 if (ImGui.MenuItem("Open..."))
                 {

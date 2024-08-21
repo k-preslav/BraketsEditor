@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -27,8 +29,9 @@ public static class Globals
     }
     #endregion
 
-    #region APPLICATION STATUS
+    #region APPLICATION
     public static bool STATUS_Loading = false;
+    public static string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     #endregion
 
     #region GAME
