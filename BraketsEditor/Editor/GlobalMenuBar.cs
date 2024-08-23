@@ -14,10 +14,16 @@ public class GlobalMenuBar
             {
                 if (ImGui.MenuItem("New..."))
                 {
+                    if (Globals.IS_DEV_BUILD) 
+                        Debug.Warning("Cannot create new project! This is a DEV_BUILD!");
+                        
                     ProjectManager.NewProject();
                 }
                 if (ImGui.MenuItem("Open..."))
                 {
+                    if (Globals.IS_DEV_BUILD) 
+                        Debug.Warning("Cannot open a project! This is a DEV_BUILD!");
+
                     ProjectManager.OpenProject();
                 }
                 ImGui.Separator();

@@ -52,6 +52,8 @@ public class BuildManager
         isDoneRunning = false;
         runButtonText = "Stop";
 
+        DiagnosticsView.ResetFull();
+
         string path = Path.GetFullPath(Globals.projectPath);
 
         runProcess = new Process
@@ -88,8 +90,12 @@ public class BuildManager
 
         runProcess.Exited += (object sender, EventArgs a) =>
         {
+            DiagnosticsView.Reset();
+            DiagnosticsView.showGraphs = false;
+
             isDoneRunning = true;
             runButtonText = "Run";
+
             BraketsEngine.Debug.Log("Run process done!");
         };
 
@@ -103,9 +109,5 @@ public class BuildManager
         runProcess.BeginErrorReadLine();
 
         await runProcess.WaitForExitAsync();            
-
-        DiagnosticsView.Reset();
-        DiagnosticsView.showGraphs = false;
     }
-
 }

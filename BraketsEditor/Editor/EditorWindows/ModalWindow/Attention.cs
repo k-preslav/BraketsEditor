@@ -10,11 +10,12 @@ public class Attention : DebugWindow
 {
     private string message = "";
     private string option2Text = "";
+    private int defaultOption = 0;
     private bool result = false;
     private Action<bool> callback;
 
-    public Attention(string message, string option2="", Action<bool> callback=null) 
-        : base("Attention", overridePos:true, overrideSize:true, visible: false, flags: ImGuiWindowFlags.Modal)
+    public Attention(string message, string option2="", int defaultOption=0, Action<bool> callback=null) 
+        : base("Attention", overridePos:true, overrideSize:true, visible: false, flags: ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize)
     {
         base.Size = new Vector2(ImGui.CalcTextSize(message).X + 25, 115);
         base.Pos = new Vector2(Globals.APP_Width / 2 - base.Size.X / 2, Globals.APP_Height / 2 - base.Size.Y / 2);
@@ -23,6 +24,7 @@ public class Attention : DebugWindow
         this.callback = callback;
         this.message = message;
         this.option2Text = option2;
+        this.defaultOption = defaultOption;
     }
 
     public void Show()
@@ -40,7 +42,7 @@ public class Attention : DebugWindow
 
         if (option2Text != string.Empty)
         {
-            if (ImGui.Button(option2Text))
+            if (ImGui.Button(option2Text) || (defaultOption == 1 && !ImGui.IsWindowFocused()))
             {
                 result = false;
                 Visible = false;
@@ -48,7 +50,7 @@ public class Attention : DebugWindow
             }
             ImGui.SameLine();
         }
-        if (ImGui.Button("OK"))
+        if (ImGui.Button("OK") || (defaultOption == 0 && !ImGui.IsWindowFocused()))
         {
             result = true;
             Visible = false;

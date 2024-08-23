@@ -13,7 +13,7 @@ public class Confirm : DebugWindow
     private Action<bool> callback;
 
     public Confirm(string message, Action<bool> callback) 
-        : base("Confirm?", overridePos:true, overrideSize:true, visible: false, flags: ImGuiWindowFlags.Modal)
+        : base("Confirm?", overridePos:true, overrideSize:true, visible: false, flags: ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize)
     {
         base.Size = new Vector2(ImGui.CalcTextSize(message).X + 25, 115);
         base.Pos = new Vector2(Globals.APP_Width / 2 - base.Size.X / 2, Globals.APP_Height / 2 - base.Size.Y / 2);
@@ -42,7 +42,7 @@ public class Confirm : DebugWindow
             callback(result);
         }
         ImGui.SameLine();
-        if (ImGui.Button("No"))
+        if (ImGui.Button("No") || !ImGui.IsWindowFocused())
         {
             result = false;
             Visible = false;

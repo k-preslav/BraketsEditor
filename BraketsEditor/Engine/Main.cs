@@ -28,6 +28,7 @@ public class Main : Game
         IsMouseVisible = true;
 
         this.Exiting += OnExit;
+        this.Window.ClientSizeChanged += OnResize;
     }
 
     protected override void Initialize()
@@ -42,6 +43,7 @@ public class Main : Game
 
         Debug.Log("Applying application properties...", this);
         Window.Title = Globals.APP_Title;
+        Window.AllowUserResizing = Globals.APP_Resizable;
         _graphics.PreferredBackBufferWidth = Globals.APP_Width;
         _graphics.PreferredBackBufferHeight = Globals.APP_Height;
         _graphics.SynchronizeWithVerticalRetrace = Globals.APP_VSync;
@@ -151,6 +153,11 @@ public class Main : Game
     public void AddUIElement(UIElement elem) => UI.Add(elem);
     public void RemoveUIElement(UIElement elem) => UI.Remove(elem);
 
+    private void OnResize(object sender, EventArgs e)
+    {
+        Globals.APP_Width = Window.ClientBounds.Width;
+        Globals.APP_Height = Window.ClientBounds.Height;
+    }
     private void OnExit(object sender, EventArgs e)
     {
         Debug.Log("Calling OnExit()");

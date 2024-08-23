@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using BraketsEngine;
 using ImGuiNET;
@@ -9,8 +10,6 @@ using Microsoft.Xna.Framework;
 namespace BraketsEditor;
 public class DiagnosticsView
 {
-    // TODO: Add a way to view the last report and also download it as a spreadsheet
-
     private static List<float> fpsValues = new List<float>();
     private static List<float> memoryValues = new List<float>();
     private static List<float> dtValues = new List<float>();
@@ -19,6 +18,14 @@ public class DiagnosticsView
     private static List<float> threadsCounts = new List<float>();
     private static List<string> logMessages = new List<string>();
     private const int MaxValues = 1500; // Limit the length of each list
+
+    private static List<float> fpsValuesFull = new List<float>();
+    private static List<float> memoryValuesFull = new List<float>();
+    private static List<float> dtValuesFull = new List<float>();
+    private static List<float> spritesCountsFull = new List<float>();
+    private static List<float> GC_CallsFull = new List<float>();
+    private static List<float> threadsCountsFull = new List<float>();
+    private static List<string> logMessagesFull = new List<string>();
 
     public static bool showGraphs = false;
     public static bool hasLaunched = false;
@@ -56,13 +63,41 @@ public class DiagnosticsView
 
         if (!showGraphs && !hasLaunched)
         {
-            ImGui.Text("No diagnostic data.");
-            Globals.EditorManager.Status = "Ready";
+            ImGui.NewLine();
+
+            if (fpsValuesFull.Count == 0)
+                ImGui.Text("No diagnostic data.");
+            else
+            {
+                ImGui.Text("Download lates diagnostics:");
+                ImGui.Spacing();
+
+                if (ImGui.Button("Download graphs"))
+                {
+                    DownloadGraphs();
+                }
+                ImGui.SameLine();
+                if (ImGui.Button("Download log"))
+                {
+                    DownloadLog();
+                }
+
+                ImGui.Spacing();
+                ImGui.Separator();
+                ImGui.Spacing();
+                if (ImGui.Button("Open Diagnostics Folder"))
+                {
+                    OpenInExplorer.OpenDebugDataFolder();
+                }
+            }
             
+            Globals.EditorManager.Status = "Ready";
             return;
         }
         else if (showGraphs && !hasLaunched)
         {
+            ImGui.NewLine();
+
             ImGui.Text("Starting application...");
             Globals.EditorManager.Status = "Starting...";
 
@@ -72,11 +107,22 @@ public class DiagnosticsView
         Globals.EditorManager.Status = "Application Running...";
         
         fpsValues.Add(currentFps);
+        fpsValuesFull.Add(currentFps);
+
         dtValues.Add(currentDt);
+        dtValuesFull.Add(currentDt);
+        
         memoryValues.Add(currentMemory);
+        memoryValuesFull.Add(currentMemory);
+
         spritesCounts.Add(currentSpriteCount);
+        spritesCountsFull.Add(currentSpriteCount);
+        
         GC_Calls.Add(currentGC);
+        GC_CallsFull.Add(currentGC);
+        
         threadsCounts.Add(currentThreadsCount);
+        threadsCountsFull.Add(currentThreadsCount);
 
         if (fpsValues.Count > MaxValues) fpsValues.RemoveAt(0);
         if (memoryValues.Count > MaxValues) memoryValues.RemoveAt(0);
@@ -170,8 +216,65 @@ public class DiagnosticsView
         logMessages.Clear();
     }
 
+    public static void ResetFull()
+    {
+        Reset();
+
+        fpsValuesFull.Clear();
+        dtValuesFull.Clear();
+        memoryValuesFull.Clear();
+        GC_CallsFull.Clear();
+        spritesCountsFull.Clear();
+        threadsCountsFull.Clear();
+        logMessagesFull.Clear();
+
+        File.Delete($"{Globals.projectPath}/DEBUG_DATA/graphs.csv");
+        File.Delete($"{Globals.projectPath}/DEBUG_DATA/log.txt");
+    }
+
     public static void AddMessageToLog(string msg) 
     {
         logMessages.Add(msg);
+        logMessagesFull.Add($"[{DateTime.Now}] {msg}");
+    }
+
+    private static void DownloadGraphs()
+    {
+        string directory = $"{Globals.projectPath}/DEBUG_DATA";
+        string path = $"{directory}/graphs.csv";
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        using (StreamWriter writer = new StreamWriter(path))
+        {
+            writer.WriteLine("FPS,DT,Memory,Sprites,GC Calls,Threads");
+            for (int i = 0; i < fpsValuesFull.Count; i++)
+            {
+                string line = $"{fpsValuesFull[i]},{dtValuesFull[i]},{memoryValuesFull[i]},{spritesCountsFull[i]},{GC_CallsFull[i]},{threadsCountsFull[i]}";
+                writer.WriteLine(line);
+            }
+        }
+
+        BraketsEngine.Debug.Log($"Graphs saved as CSV to path: {path}");
+    }
+    private static async void DownloadLog()
+    {
+        string directory = $"{Globals.projectPath}/DEBUG_DATA";
+        string path = $"{directory}/log.txt";
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        string data = "";
+        foreach (var line in logMessagesFull)
+        {
+            data += $"{line}\n";
+        }
+        await File.WriteAllTextAsync(path, data);
+
+        BraketsEngine.Debug.Log($"Logs saved as TXT to path: {path}");
     }
 }

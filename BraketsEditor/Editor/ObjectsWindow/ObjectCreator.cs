@@ -37,7 +37,7 @@ public class ObjectCreator
             return;   
         }
 
-        new Attention("Renaming a file is not adviced, as it cound break you project!", "Revert", (result) => {
+        new Attention("Renaming a file is not adviced, as it cound break you project!", "Revert", 1, (result) => {
             if (result == true)
                 ObjectsWindow.Refresh();
             else

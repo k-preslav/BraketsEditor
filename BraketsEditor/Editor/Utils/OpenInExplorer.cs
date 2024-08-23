@@ -15,6 +15,10 @@ public class OpenInExplorer
     {
         Open($"{Globals.projectGameFolderPath}");
     }
+    public static void OpenDebugDataFolder()
+    {
+        Open($"{Globals.projectPath}/DEBUG_DATA/");
+    }
 
     static void Open(string path)
     {

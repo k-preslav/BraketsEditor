@@ -21,6 +21,7 @@ public static class Globals
     public static string APP_Version = "indev 0.0.1";
     public static int APP_Width = 1280;
     public static int APP_Height = 720;
+    public static bool APP_Resizable = true;
     public static bool APP_VSync = true;
     public static void LOAD_APP_P()
     {
@@ -53,6 +54,7 @@ public static class Globals
     public static string projectPath = "../../projects/Test/Test/";
     public static string projectGameFolderPath = "../../projects/Test/Test/Game/";
     public static string projectContentFolderPath = "../../projects/Test/Test/content/";
+    public static bool IS_DEV_BUILD = true;
 
     #endregion
 
