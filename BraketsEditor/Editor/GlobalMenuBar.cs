@@ -14,11 +14,11 @@ public class GlobalMenuBar
             {
                 if (ImGui.MenuItem("New..."))
                 {
-                    ProjectCreator.OpenProjectCreator();
+                    ProjectManager.NewProject();
                 }
                 if (ImGui.MenuItem("Open..."))
                 {
-                    // Handle open menu item click
+                    ProjectManager.OpenProject();
                 }
                 ImGui.Separator();
                 if (ImGui.MenuItem("Open 'Content' in File Explorer"))
