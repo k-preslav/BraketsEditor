@@ -78,7 +78,6 @@ public class DebugUI
     private List<DebugWindow> _windows = new List<DebugWindow>();
     private ImGuiRenderer _renderer;
     private ImFontPtr _debug_windows_font;
-    private ImFontPtr _debug_windows_console_font;
     private Action _menuBar;
 
     public void Initialize(Game owner)
