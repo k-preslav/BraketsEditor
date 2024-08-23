@@ -18,7 +18,7 @@ public static class Globals
 
     #region APPLICATION PROPERTIES
     public static string APP_Title = "Brakets Editor";
-    public static string APP_Version = "indev 0.0.1";
+    public static string APP_Version = "230824_1";
     public static int APP_Width = 1280;
     public static int APP_Height = 720;
     public static bool APP_Resizable = true;

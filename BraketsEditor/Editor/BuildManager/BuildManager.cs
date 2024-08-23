@@ -69,12 +69,10 @@ public class BuildManager
             }
         };
 
-        // Setup handlers for output and error streams
         runProcess.OutputDataReceived += (sender, args) =>
         {
             if (args.Data != null)
             {
-                // Ensure thread safety if updating UI or shared resources
                 DiagnosticsView.AddMessageToLog(args.Data);
             }
         };
@@ -83,7 +81,6 @@ public class BuildManager
         {
             if (args.Data != null)
             {
-                // Ensure thread safety if updating UI or shared resources
                 DiagnosticsView.AddMessageToLog(args.Data);
             }
         };
@@ -104,7 +101,6 @@ public class BuildManager
         await Task.Delay(100);      
         runProcess.Start();
 
-        // Start reading the output and error streams
         runProcess.BeginOutputReadLine();
         runProcess.BeginErrorReadLine();
 

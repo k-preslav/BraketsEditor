@@ -16,7 +16,7 @@ public class GlobalMenuBar
                 {
                     if (Globals.IS_DEV_BUILD) 
                         Debug.Warning("Cannot create new project! This is a DEV_BUILD!");
-                        
+
                     ProjectManager.NewProject();
                 }
                 if (ImGui.MenuItem("Open..."))
@@ -44,9 +44,9 @@ public class GlobalMenuBar
             }
             if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.MenuItem("Application Properties"))
+                if (ImGui.MenuItem("Game Properties"))
                 {
-                    Debug.Log("Change Application Props");
+                    Globals.DEBUG_UI.GetWindow("Game Properties").Visible = true;
                 }
                 if (ImGui.MenuItem("Preferences"))
                 {

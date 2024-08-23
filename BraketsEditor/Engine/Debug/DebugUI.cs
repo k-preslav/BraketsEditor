@@ -52,7 +52,12 @@ public class DebugWindow
             if (_overrideSize) ImGui.SetNextWindowSize(this.Size.ToNumerics());
             if (_overridePos) ImGui.SetNextWindowPos(this.Pos.ToNumerics());
             
-            if (_closable) ImGui.Begin(this.Name, ref Visible, this._flags);
+            if (_closable) 
+            {
+                ImGui.Begin(this.Name, ref Visible, this._flags);
+                if (!ImGui.IsWindowFocused())
+                    this.Visible = false;
+            }
             else ImGui.Begin(this.Name, this._flags);
             
             ImGui.PushFont(font);
@@ -73,6 +78,7 @@ public class DebugUI
     private List<DebugWindow> _windows = new List<DebugWindow>();
     private ImGuiRenderer _renderer;
     private ImFontPtr _debug_windows_font;
+    private ImFontPtr _debug_windows_console_font;
     private Action _menuBar;
 
     public void Initialize(Game owner)

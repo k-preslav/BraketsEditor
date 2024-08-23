@@ -39,11 +39,17 @@ public class EditorManager
             view = DiagnosticsView.Draw
         });
 
+        DebugWindow gamePropWin = new DebugWindow("Game Properties", overridePos: true, overrideSize: true,
+            closable:true, visible:false, flags: ImGuiWindowFlags.NoCollapse
+        );
+        gamePropWin.OnDraw += (DebugWindow parent) => {GamePropertiesWindow.Draw(parent);};
+
         ObjectCreator.SetupFileWatcher();
 
         Globals.DEBUG_UI.AddWindow(objectsWindow);
         Globals.DEBUG_UI.AddWindow(toolsWindow);
         Globals.DEBUG_UI.AddWindow(newObjWindow);
+        Globals.DEBUG_UI.AddWindow(gamePropWin);
         
         bridgeServer = new BridgeServer(8000);
         bridgeServer.OnRecieve += OnBridgeDataRecive;
