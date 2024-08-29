@@ -1,12 +1,17 @@
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BraketsEditor;
 
 public class GlobalMenuBar
 {
-    public static void Draw()
+    static Thread buildAndRun;
+
+    public static async void DrawAsync()
     {
         if (ImGui.BeginMainMenuBar())
         {
@@ -14,15 +19,20 @@ public class GlobalMenuBar
             {
                 if (ImGui.MenuItem("New..."))
                 {
-                    if (Globals.IS_DEV_BUILD) 
+                    if (Globals.IS_DEV_BUILD)
+                    {
                         Debug.Warning("Cannot create new project! This is a DEV_BUILD!");
-
+                        return;
+                    }
                     ProjectManager.NewProject();
                 }
                 if (ImGui.MenuItem("Open..."))
                 {
-                    if (Globals.IS_DEV_BUILD) 
+                    if (Globals.IS_DEV_BUILD)
+                    {
                         Debug.Warning("Cannot open a project! This is a DEV_BUILD!");
+                        return;
+                    }
 
                     ProjectManager.OpenProject();
                 }
@@ -47,6 +57,7 @@ public class GlobalMenuBar
                 if (ImGui.MenuItem("Game Properties"))
                 {
                     Globals.DEBUG_UI.GetWindow("Game Properties").Visible = true;
+                    GamePropertiesWindow.LoadProperties();
                 }
                 if (ImGui.MenuItem("Preferences"))
                 {
@@ -101,14 +112,36 @@ public class GlobalMenuBar
             if (ImGui.Button("Build", new Vector2(55, Globals.DEBUG_UI_MENUBAR_SIZE_Y - 1).ToNumerics()))
             {
                 Debug.Log("Building application...");
-                BuildManager.Build();
+                await BuildManager.Build();
             }
             if (ImGui.Button(BuildManager.runButtonText, new Vector2(55, Globals.DEBUG_UI_MENUBAR_SIZE_Y - 1).ToNumerics()))
             {
-                Debug.Log("Running application...");
-                BuildManager.Run();
+                if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
+                {
+                    buildAndRun = new Thread(async () =>
+                    {
+                        Debug.Log("Building application...");
+                        await BuildManager.Build();
+                        Debug.Log("Running application...");
+                        BuildManager.Run();
+                    });
+                    buildAndRun.Start();
+                    buildAndRun.Join();
+                }
+                else
+                {
+                    BuildManager.runButtonText = "Run";
+                    BuildManager.Run();
+                    buildAndRun.Join();
+                }
             }
             ImGui.PopStyleVar(2);
+
+            if (Globals.IS_DEV_BUILD)
+            {
+                ImGui.SetCursorPosX((ImGui.GetWindowSize().X - 500));
+                ImGui.TextColored(Color.Gray.ToVector4().ToNumerics(), "DEB_BUILD");
+            }
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5, 0).ToNumerics());
             ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0).ToNumerics());

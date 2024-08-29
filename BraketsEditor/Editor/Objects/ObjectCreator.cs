@@ -1,4 +1,5 @@
 using System.IO;
+using BraketsEditor.Editor.ContentElements;
 using BraketsEngine;
 using ImGuiNET;
 
@@ -26,7 +27,7 @@ public class ObjectCreator
     }
     private static void OnFileChanged(object sender, FileSystemEventArgs e)
     {
-        ObjectsWindow.Refresh();
+        ObjectsPanel.Refresh();
     }
 
     private static void OnFileRenamed(object sender, RenamedEventArgs e)
@@ -37,15 +38,14 @@ public class ObjectCreator
             return;   
         }
 
-        new Attention("Renaming a file is not adviced, as it cound break you project!", "Revert", 1, (result) => {
-            if (result == true)
-                ObjectsWindow.Refresh();
-            else
+        new MessageBox("Renaming a file is not adviced, as it cound break you project!", "Revert", "Continue", (result) => {
+            if (result == 1)
             {
                 isInsideJob = true;
                 File.Move(e.FullPath, e.OldFullPath);
                 File.Delete(e.FullPath);
-            }     
+            }
+            else if (result == 2) ObjectsPanel.Refresh();  
         }).Show();
     }
     #endregion
@@ -84,7 +84,7 @@ public class ObjectCreator
         string fullPath = $"{groupPath}/{name}.cs";
         File.WriteAllText(fullPath, template);
 
-        ObjectsWindow.Refresh();
+        ObjectsPanel.Refresh();
     }
 
     public static void RemoveFile(string path)
@@ -92,6 +92,6 @@ public class ObjectCreator
         if (File.Exists(path))
             File.Delete(path);
 
-        ObjectsWindow.Refresh();
+        ObjectsPanel.Refresh();
     }
 }

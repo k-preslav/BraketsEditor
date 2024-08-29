@@ -8,32 +8,63 @@ namespace BraketsEditor;
 
 public class BuildManager
 {
-    private static bool isDoneBuilding = true;
-    private static bool isDoneRunning = true;
+    public static bool isDoneBuilding = true;
+    public static bool isDoneRunning = true;
 
     private static Process runProcess;
     public static string runButtonText = "Run";
 
     public static float diagnosticRefreshRate = 0.5f;
 
-    public static async void Build()
+    public static async Task Build()
     {
         if (!isDoneBuilding) 
             return;
 
-        Globals.EditorManager.Status = "Building...";
-        isDoneBuilding = false; 
-    
-        Process buildProcess = new Process();
-        buildProcess.StartInfo.FileName = "dotnet";
-        buildProcess.StartInfo.Arguments = $"build {Globals.projectPath}";
-        buildProcess.Exited += (object sender, EventArgs a) => {isDoneBuilding = true;};
+        isDoneBuilding = false;
+        bool isSuccess = true;
+
+        Process buildProcess = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = $"build {Globals.projectPath}",
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+                UseShellExecute = false
+            }
+        };
+        buildProcess.Exited += (object sender, EventArgs a) => {
+            isDoneBuilding = true;
+            
+            if (isSuccess)
+            {
+                BraketsEngine.Debug.Log("Build process done!");
+                Globals.EditorManager.Status = "Ready";
+            }
+            else
+            {
+                BraketsEngine.Debug.Log("Build process failed!");
+                Globals.EditorManager.Status = "Build Failed";
+            }
+        };
+
+        buildProcess.OutputDataReceived += (sender, args) =>
+        {
+            isSuccess = false;
+
+            BraketsEngine.Debug.Warning("Failed to build project:\n " + args.Data);
+            new MessageBox($"Build failed!\n {args.Data}");
+        };
         
         buildProcess.Start();
-        await buildProcess.WaitForExitAsync();
+        buildProcess.BeginErrorReadLine();
 
-        BraketsEngine.Debug.Log("Build process done!");
-        Globals.EditorManager.Status = "Ready";
+        Globals.EditorManager.Status = "Building...";
+        runButtonText = "...";
+
+        await buildProcess.WaitForExitAsync();
     }
 
     public static async void Run()
@@ -50,7 +81,6 @@ public class BuildManager
         }
 
         isDoneRunning = false;
-        runButtonText = "Stop";
 
         DiagnosticsView.ResetFull();
 
@@ -71,6 +101,8 @@ public class BuildManager
 
         runProcess.OutputDataReceived += (sender, args) =>
         {
+            runButtonText = "Stop";
+            
             if (args.Data != null)
             {
                 DiagnosticsView.AddMessageToLog(args.Data);
@@ -82,11 +114,16 @@ public class BuildManager
             if (args.Data != null)
             {
                 DiagnosticsView.AddMessageToLog(args.Data);
+                BraketsEngine.Debug.Error(args.Data);
+
+                // TODO: Show a message that the build/run has failed and show the error
             }
         };
 
         runProcess.Exited += (object sender, EventArgs a) =>
         {
+            Globals.EditorManager.Status = "Ready";
+
             DiagnosticsView.Reset();
             DiagnosticsView.showGraphs = false;
 

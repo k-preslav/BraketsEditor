@@ -10,9 +10,9 @@ namespace BraketsEditor;
 public class GamePropertiesWindow
 {
     static string title = Globals.projectName, 
-                version = "0.0.1",
-                width = "800",
-                height = "600";
+                version = "",
+                width = "",
+                height = "";
     static bool resize = true,
                 vsync = true;
 
@@ -63,6 +63,43 @@ public class GamePropertiesWindow
         };
 
         await File.WriteAllLinesAsync(path, data);
-        Debug.Log("Saved game properties!");
+        Debug.Log("Saved game properties.");
+    }
+
+    internal static void LoadProperties()
+    {
+        string path = $"{Globals.projectPath}/game.properties";
+        string[] data = File.ReadAllLines(path);
+
+
+        foreach (string line in data)
+        {
+            string key = line.Split(",")[0];
+            string value = line.Split(",")[1];
+
+            switch (key)
+            {
+                case "app_ver":
+                    version = value;
+                    break;
+                case "app_title":
+                    title = value;
+                    break;
+                case "app_width":
+                    width = value;
+                    break;
+                case "app_height":
+                    height = value;
+                    break;
+                case "app_resizable":
+                    resize = bool.Parse(value);
+                    break;
+                case "app_vsync":
+                    vsync = bool.Parse(value);
+                    break;
+            }
+        }
+
+        Debug.Log("Loaded game properties.");
     }
 }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace BraketsEditor
 {
@@ -10,8 +11,14 @@ namespace BraketsEditor
             {
                 FileName = "code",
                 Arguments = $"{folder} --goto \"{filePath}\"",
-                UseShellExecute = true
+                UseShellExecute = true,
+                CreateNoWindow = true,
             };
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            }
 
             Process.Start(startInfo);
         }

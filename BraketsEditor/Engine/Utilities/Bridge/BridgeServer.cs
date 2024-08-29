@@ -26,7 +26,7 @@ public class BridgeServer
     public void Start()
     {
         _listener.Start();
-        Debug.Log("Bridge Server started!");
+        Debug.Log("Bridge Server started!", this);
 
         Task.Run(async () =>
         {

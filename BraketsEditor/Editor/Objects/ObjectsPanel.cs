@@ -11,21 +11,21 @@ using Microsoft.Xna.Framework;
 
 namespace BraketsEditor;
 
-public class ObjectsWindow
+public class ObjectsPanel
 {
     static List<ObjectButton> objects = new List<ObjectButton>();
 
     public static void Draw(DebugWindow parent)
     {
         parent.Pos = new Vector2(0, Globals.DEBUG_UI_MENUBAR_SIZE_Y);
-        parent.Size = new Vector2(300, Globals.APP_Height - Globals.DEBUG_UI_MENUBAR_SIZE_Y);
+        parent.Size = new Vector2(300, Globals.APP_Height / 2 - Globals.DEBUG_UI_MENUBAR_SIZE_Y);
 
         ImGui.SeparatorText("Objects");
         ImGui.SameLine();
         ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 10);
         if (ImGui.SmallButton("R")) Refresh();
 
-        if (Input.IsMouseClicked(1) && Input.GetMousePosition().X < parent.Size.X)
+        if (Input.IsMouseClicked(1) && Input.GetMousePosition().X < parent.Size.X && Input.GetMousePosition().Y < parent.Size.Y)
         {
             ImGui.OpenPopup("Create Class Popup");
         }

@@ -17,7 +17,7 @@ public class NewObjectWindow
 
     private static string objName = "";
 
-    public static void Draw()
+    public static void Draw(DebugWindow parent)
     {
         ImGui.ListBox("", ref _selectedItem, _items, _items.Length);
 

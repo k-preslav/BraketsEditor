@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FontStashSharp;
+using ImGuiNET;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -23,6 +24,8 @@ public struct BTexture
 {
     public string name;
     public Texture2D tex;
+
+    public nint ImGuiTexID;
 }
 
 public struct BFont
@@ -92,10 +95,13 @@ public static class ResourceManager
 
             try
             {
+                Texture2D tex = Texture2D.FromFile(Globals.ENGINE_GraphicsDevice, path);
+
                 _textures.Add(
                     new BTexture{
                         name = filename.Trim(),
-                        tex = Texture2D.FromFile(Globals.ENGINE_GraphicsDevice, path)
+                        tex = tex,
+                        ImGuiTexID = Globals.DEBUG_UI.Renderer.BindTexture(tex),
                     }
                 );
             }
@@ -185,6 +191,25 @@ public static class ResourceManager
         // TODO: Implement other content types
     }
 
+    public static void LoadTextureFromFullPath(string path)
+    {
+        string _name = Path.GetFileNameWithoutExtension(path).Trim();
+
+        if (_textures.Any(t => t.name == _name))
+            return;
+
+        Texture2D tex = Texture2D.FromFile(Globals.ENGINE_GraphicsDevice, path);
+
+        _textures.Add(
+            new BTexture
+            {
+                name = _name,
+                tex = tex,
+                ImGuiTexID = Globals.DEBUG_UI.Renderer.BindTexture(tex),
+            }
+        );
+    }
+
     public static Texture2D GetTexture(string name)
     {
         foreach (var tex in _textures)
@@ -208,6 +233,30 @@ public static class ResourceManager
         }
 
         return null;
+    }
+    public static nint GetImGuiTexture(string name)
+    {
+        foreach (var tex in _textures)
+        {
+            if (tex.name.Trim() == name.Trim())
+            {
+                failedLoads = 0;
+                return tex.ImGuiTexID;
+            }
+        }
+        failedLoads++;
+
+        if (failedLoads < 5)
+        {
+            Load(ResourceType.Texture, name);
+            return GetImGuiTexture(name);
+        }
+        else
+        {
+            Debug.Fatal($"FAILED TO LOAD TEXTURE '{name}'!");
+        }
+
+        return 0;
     }
 
     public static SpriteFontBase GetFont(string name, int size)

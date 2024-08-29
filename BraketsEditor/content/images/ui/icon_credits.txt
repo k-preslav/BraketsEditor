@@ -1,0 +1,8 @@
+All icons are downloaded from https://www.flaticon.com
+
+folder.png - NajmunNahar
+unknown.png, font-file.png, level-file.png, audio-file.png - pancaza
+arrow-right.png - Pixel Perfect
+
+partial:
+sprite_icon - Freepik

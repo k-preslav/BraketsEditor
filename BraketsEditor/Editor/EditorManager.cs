@@ -3,6 +3,8 @@ using ImGuiNET;
 using Microsoft.Xna.Framework;
 using BraketsEditor;
 using Microsoft.Xna.Framework.Input;
+using BraketsEditor.Editor.ContentElements;
+using BraketsEditor.Editor.Contents.AddContentWindow;
 
 public class EditorManager
 {
@@ -17,18 +19,29 @@ public class EditorManager
         Globals.Camera.BackgroundColor = new Color(25, 25, 25);
 
         DebugWindowStyle.VisualStudio();
-        Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.Draw);
+        Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.DrawAsync);
 
-        DebugWindow objectsWindow = new DebugWindow("Objects", overridePos: true, overrideSize: true,
+        DebugWindow objectsPanel = new DebugWindow("Objects", overridePos: true, overrideSize: true,
             flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar
         );
-        objectsWindow.OnDraw += (DebugWindow parent) => {ObjectsWindow.Draw(parent);};
-        ObjectsWindow.Refresh();
+        objectsPanel.OnDraw += (DebugWindow parent) => {ObjectsPanel.Draw(parent);};
+        ObjectsPanel.Refresh();
 
-        DebugWindow newObjWindow = new DebugWindow("Add new Object", overridePos: false, overrideSize: false,
-            closable:true, visible:false, flags: ImGuiWindowFlags.NoCollapse
+        DebugWindow contentPanel = new DebugWindow("Content", overridePos: true, overrideSize: true,
+            flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar
         );
-        newObjWindow.OnDraw += (DebugWindow parent) => {NewObjectWindow.Draw();};
+        contentPanel.OnDraw += (DebugWindow parent) => { ContentPanel.Draw(parent); };
+        ContentPanel.Refresh("/");
+
+        DebugWindow newObjWindow = new DebugWindow("Add new Object", overridePos: false, overrideSize: false, width:500, height:450,
+            closable:true, topmost: true, visible:false, flags: ImGuiWindowFlags.NoCollapse
+        );
+        newObjWindow.OnDraw += (DebugWindow parent) => {NewObjectWindow.Draw(parent);};
+
+        DebugWindow newContentWindow = new DebugWindow("Add new Content", overridePos: false, overrideSize: true, width:550, height:225,
+            closable: true, topmost: true, visible: false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
+        );
+        newContentWindow.OnDraw += (DebugWindow parent) => { AddContentWindow.Draw(parent); };
 
         DebugWindow toolsWindow = new DebugWindow("Tools", overridePos: true, overrideSize: true,
             flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar);
@@ -40,15 +53,17 @@ public class EditorManager
         });
 
         DebugWindow gamePropWin = new DebugWindow("Game Properties", overridePos: true, overrideSize: true,
-            closable:true, visible:false, flags: ImGuiWindowFlags.NoCollapse
+            closable:true, topmost: true, visible:false, flags: ImGuiWindowFlags.NoCollapse
         );
         gamePropWin.OnDraw += (DebugWindow parent) => {GamePropertiesWindow.Draw(parent);};
 
         ObjectCreator.SetupFileWatcher();
 
-        Globals.DEBUG_UI.AddWindow(objectsWindow);
+        Globals.DEBUG_UI.AddWindow(objectsPanel);
+        Globals.DEBUG_UI.AddWindow(contentPanel);
         Globals.DEBUG_UI.AddWindow(toolsWindow);
         Globals.DEBUG_UI.AddWindow(newObjWindow);
+        Globals.DEBUG_UI.AddWindow(newContentWindow);
         Globals.DEBUG_UI.AddWindow(gamePropWin);
         
         bridgeServer = new BridgeServer(8000);
@@ -72,7 +87,13 @@ public class EditorManager
 
     public void Update(float dt)            
     {
-
+        // Shortcuts
+        if (ImGui.Shortcut(ImGuiKey.ModCtrl | ImGuiKey.N, ImGuiInputFlags.RouteGlobal)) Globals.DEBUG_UI.GetWindow("Add new Object").Visible = true;
+        if (ImGui.Shortcut(ImGuiKey.ModCtrl | ImGuiKey.R, ImGuiInputFlags.RouteGlobal))
+        {
+            ObjectsPanel.Refresh();
+            ContentPanel.Refresh("last");
+        }
     }
 
     internal void Stop()

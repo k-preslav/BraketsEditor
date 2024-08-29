@@ -31,9 +31,9 @@ public class ObjectButton
         ImGui.SameLine();
         if (ImGui.Button("X", new Vector2(30, 30)))
         {
-            var confirm = new Confirm($"Are you sure you want to delete object '{Name}'", (result) =>
+            var confirm = new MessageBox($"Are you sure you want to delete object '{Name}'", "No", "Yes", (result) =>
             {
-                if (result)
+                if (result == 2)
                 {
                     ObjectCreator.RemoveFile(FilePath);
                 }

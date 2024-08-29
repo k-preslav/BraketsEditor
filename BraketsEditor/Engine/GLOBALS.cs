@@ -49,11 +49,11 @@ public static class Globals
     public static int DEBUG_UI_MENUBAR_SIZE_Y;
     #endregion
 
-    #region EDITOR
-    public static string projectName = "Test";
-    public static string projectPath = "../../projects/Test/Test/";
-    public static string projectGameFolderPath = "../../projects/Test/Test/Game/";
-    public static string projectContentFolderPath = "../../projects/Test/Test/content/";
+    #region PROJECT
+    public static string projectName = "Template";
+    public static string projectPath = "../../../../../BraketsRaw-Template/BraketsTemplate/";
+    public static string projectGameFolderPath = $"{projectPath}/Game/";
+    public static string projectContentFolderPath = $"{projectPath}/content/";
     public static bool IS_DEV_BUILD = true;
 
     #endregion

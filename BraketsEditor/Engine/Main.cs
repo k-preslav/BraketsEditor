@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using BraketsEditor;
+using BraketsEditor.Editor.Contents.AddContentWindow;
 using FontStashSharp;
+using ImageMagick;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input; 
@@ -29,6 +32,8 @@ public class Main : Game
 
         this.Exiting += OnExit;
         this.Window.ClientSizeChanged += OnResize;
+
+        Window.FileDrop += OnFileDrop;
     }
 
     protected override void Initialize()
@@ -69,7 +74,7 @@ public class Main : Game
 
     protected override void LoadContent()
     {
-        Debug.Log("Loading content...", this);
+        Debug.Log("Starting EditorManager...", this);
         _gameManager.Start();
     }
 
@@ -93,7 +98,7 @@ public class Main : Game
             elem.Update(dt);
             elem.UpdateRect();
         }
-        
+
         if (Globals.STATUS_Loading || LoadingScreen.isLoading)
             return;
 
@@ -152,6 +157,38 @@ public class Main : Game
 
     public void AddUIElement(UIElement elem) => UI.Add(elem);
     public void RemoveUIElement(UIElement elem) => UI.Remove(elem);
+
+    private void OnFileDrop(object sender, FileDropEventArgs e)
+    {
+        AddContentWindow.files.Clear();
+        AddContentWindow.filesFull = null;
+
+        var extensions = new Dictionary<string, int>();
+        var filesToRetain = new List<string>();
+
+        foreach (var file in e.Files)
+        {
+            string extension = Path.GetExtension(file).ToLower();
+            if (extensions.ContainsKey(extension)) extensions[extension]++;
+            else extensions[extension] = 1;
+        }
+
+        var mostCommonExtension = extensions.OrderByDescending(kv => kv.Value).First().Key;
+        
+        foreach (var file in e.Files)
+        {
+            if (Path.GetExtension(file).ToLower() == mostCommonExtension)
+            {
+                AddContentWindow.files.Add(Path.GetFileNameWithoutExtension(file));
+                filesToRetain.Add(file);
+            }
+        }
+
+        Globals.DEBUG_UI.GetWindow("Add new Content").Visible = true;
+
+        AddContentWindow.filesFull = filesToRetain.ToArray();
+        AddContentWindow.UpdateOptionType();
+    }
 
     private void OnResize(object sender, EventArgs e)
     {

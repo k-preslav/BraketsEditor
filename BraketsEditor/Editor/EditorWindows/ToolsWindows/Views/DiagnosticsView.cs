@@ -90,8 +90,6 @@ public class DiagnosticsView
                     OpenInExplorer.OpenDebugDataFolder();
                 }
             }
-            
-            Globals.EditorManager.Status = "Ready";
             return;
         }
         else if (showGraphs && !hasLaunched)
@@ -187,7 +185,7 @@ public class DiagnosticsView
             else if (message.ToLower().Contains("warning"))
                 ImGui.TextColored(new Vector4(1, 1, 0, 1).ToNumerics(), message);
             else
-                ImGui.TextColored(new Vector4(0.95f, 0.95f, 0.95f, 1).ToNumerics(), message);
+                ImGui.TextColored(Color.LightCyan.ToVector4().ToNumerics(), message);
         }
 
         if (autoScroll)
@@ -228,8 +226,10 @@ public class DiagnosticsView
         threadsCountsFull.Clear();
         logMessagesFull.Clear();
 
-        File.Delete($"{Globals.projectPath}/DEBUG_DATA/graphs.csv");
-        File.Delete($"{Globals.projectPath}/DEBUG_DATA/log.txt");
+        string graphPath = $"{Globals.projectPath}/DEBUG_DATA/graphs.csv";
+        string logPath = $"{Globals.projectPath}/DEBUG_DATA/log.txt";
+        if (File.Exists(graphPath)) File.Delete(graphPath);
+        if (File.Exists(logPath)) File.Delete(logPath);
     }
 
     public static void AddMessageToLog(string msg) 

@@ -23,6 +23,7 @@ public class DebugWindow
     public Vector2 Pos;
     public Vector2 Size;
     public bool Visible;
+    public bool TopMost;
     
     private ImGuiWindowFlags _flags;
     private bool _overridePos;
@@ -30,9 +31,12 @@ public class DebugWindow
     private bool _closable;
 
     public DebugWindow(string name, bool overridePos=false, bool overrideSize=false, 
-        int posx=0, int posy=0, int width=320, int height=180, bool closable=false,
-        bool visible=true, ImGuiWindowFlags flags=ImGuiWindowFlags.None)
+        int posx=-1, int posy=-1, int width=320, int height=180, bool closable=false,
+        bool visible=true, bool topmost=false, ImGuiWindowFlags flags=ImGuiWindowFlags.None)
     {
+        if (posx == -1) posx = Globals.APP_Width / 2 - width / 2;
+        if (posy == -1) posy = Globals.APP_Height / 2 - height / 2;
+
         this.Name = name;
         this.Pos = new Vector2(posx, posy);
         this.Size = new Vector2(width, height);
@@ -42,6 +46,7 @@ public class DebugWindow
         this._overrideSize = overrideSize;
 
         this.Visible = visible;
+        this.TopMost = topmost;
         this._closable = closable;
     }
 
@@ -51,15 +56,24 @@ public class DebugWindow
         {
             if (_overrideSize) ImGui.SetNextWindowSize(this.Size.ToNumerics());
             if (_overridePos) ImGui.SetNextWindowPos(this.Pos.ToNumerics());
-            
-            if (_closable) 
-            {
-                ImGui.Begin(this.Name, ref Visible, this._flags);
-                if (!ImGui.IsWindowFocused())
-                    this.Visible = false;
-            }
+
+            //if (!ImGui.IsWindowFocused())
+            //{
+            //    ImGui.SetWindowFocus();
+            //    this.Visible = true;
+            //}
+
+            if (_closable) ImGui.Begin(this.Name, ref Visible, this._flags);
             else ImGui.Begin(this.Name, this._flags);
-            
+
+            if (this.TopMost)
+            {
+                if (!ImGui.IsWindowFocused())
+                {
+                    ImGui.SetWindowFocus();
+                }
+            }
+
             ImGui.PushFont(font);
             OnDraw?.Invoke(this);
             ImGui.PopFont();
@@ -75,34 +89,35 @@ public class DebugWindow
 
 public class DebugUI
 {
+    public ImGuiRenderer Renderer;
+
     private List<DebugWindow> _windows = new List<DebugWindow>();
-    private ImGuiRenderer _renderer;
     private ImFontPtr _debug_windows_font;
     private Action _menuBar;
 
     public void Initialize(Game owner)
     {
-        _renderer = new ImGuiRenderer(owner);
+        Renderer = new ImGuiRenderer(owner);
 
         this._debug_windows_font = ImGui.GetIO().Fonts.AddFontFromFileTTF($"{Globals.CurrentDir}/content/fonts/NeorisMedium.ttf", 20);
         // TODO: Make the font size 'settable' thru settings
 
-        _renderer.RebuildFontAtlas();
+        Renderer.RebuildFontAtlas();
         Globals.DEBUG_UI = this;
     }
     public void DrawWindows(GameTime gameTime)
     {
-        if (_renderer is null)
+        if (Renderer is null)
             return;
 
-        _renderer.BeginLayout(gameTime);
+        Renderer.BeginLayout(gameTime);
 
         _menuBar?.Invoke();
         foreach (var window in _windows.ToList())
         {
             window.Draw(_debug_windows_font);
         }
-        _renderer.EndLayout();
+        Renderer.EndLayout();
     }
 
     public void UpdateWindow()
