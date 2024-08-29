@@ -32,7 +32,7 @@ public class ObjectsPanel
 
         if (ImGui.BeginPopup("Create Class Popup"))
         {
-            if (ImGui.Button("Create New...", new Vector2(150, 25).ToNumerics()))
+            if (ImGui.Button("Create New...", new Vector2(150, 30).ToNumerics()))
             {
                 Globals.DEBUG_UI.GetWindow("Add new Object").Visible = true;
             }

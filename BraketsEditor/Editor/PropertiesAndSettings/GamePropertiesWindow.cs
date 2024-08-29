@@ -42,11 +42,13 @@ public class GamePropertiesWindow
         ImGui.Checkbox("VSync", ref vsync);
         
         ImGui.SetCursorPos(new Vector2(parent.Size.X - 115, parent.Size.Y - 50));
+        WindowTheme.PushAccent();
         if (ImGui.Button("Save", new Vector2(100, 35)))
         {
             Save();
             parent.Visible = false;
         }
+        WindowTheme.PopAccent();
     }
 
     private static async void Save()

@@ -3,8 +3,9 @@ using ImGuiNET;
 using Microsoft.Xna.Framework;
 using BraketsEditor;
 using Microsoft.Xna.Framework.Input;
-using BraketsEditor.Editor.ContentElements;
+using BraketsEditor.Editor;
 using BraketsEditor.Editor.Contents.AddContentWindow;
+using BraketsEditor.Editor.Contents.ContentPicker;
 
 public class EditorManager
 {
@@ -18,7 +19,7 @@ public class EditorManager
 
         Globals.Camera.BackgroundColor = new Color(25, 25, 25);
 
-        DebugWindowStyle.VisualStudio();
+        WindowTheme.Dark();
         Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.DrawAsync);
 
         DebugWindow objectsPanel = new DebugWindow("Objects", overridePos: true, overrideSize: true,
@@ -33,8 +34,8 @@ public class EditorManager
         contentPanel.OnDraw += (DebugWindow parent) => { ContentPanel.Draw(parent); };
         ContentPanel.Refresh("/");
 
-        DebugWindow newObjWindow = new DebugWindow("Add new Object", overridePos: false, overrideSize: false, width:500, height:450,
-            closable:true, topmost: true, visible:false, flags: ImGuiWindowFlags.NoCollapse
+        DebugWindow newObjWindow = new DebugWindow("Add new Object", overridePos: false, overrideSize: true, width:475, height:675,
+            closable:true, topmost: true, visible:false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize
         );
         newObjWindow.OnDraw += (DebugWindow parent) => {NewObjectWindow.Draw(parent);};
 
@@ -42,6 +43,11 @@ public class EditorManager
             closable: true, topmost: true, visible: false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
         );
         newContentWindow.OnDraw += (DebugWindow parent) => { AddContentWindow.Draw(parent); };
+
+        DebugWindow contentPicker = new DebugWindow("Content Picker", overridePos: false, overrideSize: true, width: 580, height: 400,
+            closable: true, topmost: true, visible: false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize
+        );
+        contentPicker.OnDraw += (DebugWindow parent) => { ContentPicker.Draw(parent); };
 
         DebugWindow toolsWindow = new DebugWindow("Tools", overridePos: true, overrideSize: true,
             flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar);
@@ -64,8 +70,9 @@ public class EditorManager
         Globals.DEBUG_UI.AddWindow(toolsWindow);
         Globals.DEBUG_UI.AddWindow(newObjWindow);
         Globals.DEBUG_UI.AddWindow(newContentWindow);
+        Globals.DEBUG_UI.AddWindow(contentPicker);
         Globals.DEBUG_UI.AddWindow(gamePropWin);
-        
+
         bridgeServer = new BridgeServer(8000);
         bridgeServer.OnRecieve += OnBridgeDataRecive;
         bridgeServer.Start();

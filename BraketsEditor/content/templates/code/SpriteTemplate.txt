@@ -8,7 +8,9 @@ public class &NAME& : Sprite
     public &NAME&()
     : base("&TAG&", new Vector2(&POSX&, &POSY&), "&TEXTURE_NAME&", &LAYER&, true)
     {
-
+		&SMU&
+		&DOL&
+		&SCALE&
     }
 
     public override void Update(float dt)

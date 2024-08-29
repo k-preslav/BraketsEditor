@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Numerics;
-using BraketsEditor.Editor.ContentElements;
+using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 
@@ -23,7 +23,7 @@ public class ContentButton
     {
         string extension = Path.GetExtension(this.FilePath);        
 
-        ImGui.Image(ResourceManager.GetImGuiTexture(GetImagePath(extension)), new Vector2(20));
+        ImGui.Image(ResourceManager.GetImGuiTexture(GetThumbnailPath(extension)), new Vector2(20));
         ImGui.SameLine();
 
         if (ImGui.Selectable(Name + extension))
@@ -42,7 +42,7 @@ public class ContentButton
     {
         string extension = Path.GetExtension(this.FilePath);
 
-        if (ImGui.ImageButton("", ResourceManager.GetImGuiTexture(GetImagePath(extension)), new Vector2(64)))
+        if (ImGui.ImageButton("", ResourceManager.GetImGuiTexture(GetThumbnailPath(extension)), new Vector2(64)))
         {
             {
                 if (extension == string.Empty)
@@ -62,13 +62,13 @@ public class ContentButton
         }
 
         var textSize = ImGui.CalcTextSize(displayText);
-        float xPos = (76 - textSize.X) / 2;
+        float xPos = (86 - textSize.X) / 2;
 
         ImGui.SetCursorPosX(ImGui.GetCursorPosX() + xPos);
         ImGui.Text(displayText);
     }
 
-    string GetImagePath(string extension)
+    string GetThumbnailPath(string extension)
     {
         string imagePath = "ui/ui_default";
         switch (extension)

@@ -1,5 +1,5 @@
 using System.IO;
-using BraketsEditor.Editor.ContentElements;
+using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 
@@ -50,22 +50,25 @@ public class ObjectCreator
     }
     #endregion
 
-    public static async void CreateSprite(string name)
+    public static async void CreateSprite(string name, string tag, string texture, float objScale, int layer, bool smu, bool dol)
     {
         name = name.Replace(".cs", "");
         
         // get the template
         string template = await File.ReadAllTextAsync($"{Globals.CurrentDir}/content/templates/code/SpriteTemplate.txt");
-        
+
         // process it
         template = template
             .Replace("&NAMESPACE&", Globals.projectName)
             .Replace("&NAME&", name)
-            .Replace("&TAG&", "test_tag") // TODO: Fix the TAG, POS, TEXTURE_NAME, and LAYER props to be set when creating with ui
+            .Replace("&TAG&", tag) // TODO: Fix the TAG, POS, TEXTURE_NAME, and LAYER props to be set when creating with ui
             .Replace("&POSX&", "0")
             .Replace("&POSY&", "0")
-            .Replace("&TEXTURE_NAME&", "default_texture")
-            .Replace("&LAYER&", "0");
+            .Replace("&TEXTURE_NAME&", texture)
+            .Replace("&LAYER&", layer.ToString())
+            .Replace("&SMU&", !smu ? $"this.smartUpdate = false;" : "")
+            .Replace("&DOL&", dol ? $"this.drawOnLoading = true;" : "")
+            .Replace("&SCALE&", dol ? $"this.Scale = {objScale}f;" : "");
 
         // create the file with the template
         CreateFile("sprites", name, template);

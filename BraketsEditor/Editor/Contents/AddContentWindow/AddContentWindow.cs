@@ -7,19 +7,19 @@ using ImageMagick;
 using NAudio.Wave;
 using NVorbis;
 using BraketsEngine;
-using BraketsEditor.Editor.ContentElements;
+using BraketsEditor.Editor;
 
 namespace BraketsEditor.Editor.Contents.AddContentWindow
 {
     public class AddContentWindow
     {
         public static List<string> files = new List<string>();
-        public static string[] filesFull;
+        public static List<string> filesFull = new List<string>();
 
         public static OptionsType optionType = OptionsType.None;
         public static SelectedOption selectedOption = SelectedOption.Image;
 
-        private static int _selectedItem = 0;
+        private static int selectedIndex = 0;
 
         static string spAnimFile = "image-file";
         static float frameTimer = 0.5f;
@@ -31,6 +31,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
 
         public static void Draw(DebugWindow parent)
         {
+            Globals.DEBUG_UI.GetWindow("Content Picker").TopMost = false;
             ImGui.SeparatorText("Files");
 
             float listBoxWidth = parent.Size.X / 2.35f;
@@ -38,7 +39,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
 
             ImGui.BeginChild("FilesListBox", new Vector2(listBoxWidth, listBoxHeight - 75), ImGuiChildFlags.Border);
             ImGui.SetNextItemWidth(listBoxWidth - 15);
-            ImGui.ListBox("", ref _selectedItem, files.ToArray(), files.Count);
+            ImGui.ListBox("", ref selectedIndex, files.ToArray(), files.Count);
             ImGui.EndChild();
 
             ImGui.SameLine(); ImGui.Spacing(); ImGui.SameLine();
@@ -53,11 +54,11 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 selectedOption != SelectedOption.Audio &&
                 selectedOption != SelectedOption.Font)
             {
-                if (files[_selectedItem].Length > 15)
+                if (files[selectedIndex].Length > 15)
                 {
-                    addButtonText = $"Add {files[_selectedItem].Substring(0, 15)}...";
+                    addButtonText = $"Add {files[selectedIndex].Substring(0, 15)}...";
                 }
-                else addButtonText = $"Add {files[_selectedItem]}";
+                else addButtonText = $"Add {files[selectedIndex]}";
             }
 
             Vector2 textSize = ImGui.CalcTextSize(addButtonText);
@@ -70,6 +71,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
             );
 
             ImGui.SetCursorPos(buttonPosition);
+            WindowTheme.PushAccent();
             if (ImGui.Button(addButtonText, new Vector2(buttonWidth, buttonHeight)))
             {
                 ProcessImageAdd();
@@ -79,9 +81,18 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
 
                 ContentPanel.Refresh("last");
 
-                parent.Visible = false;
+                Globals.DEBUG_UI.GetWindow("Content Picker").TopMost = true;
+                ContentPicker.ContentPicker.Refresh();
+
+                files.RemoveAt(selectedIndex);
+                filesFull.RemoveAt(selectedIndex);
+
+                if (files.Count <= 0)
+                    parent.Visible = false;
+                    
                 saveInUI = false;
             }
+            WindowTheme.PopAccent();
 
             if (selectedOption == SelectedOption.Image)
             {
@@ -106,7 +117,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
 
         public static void UpdateOptionType()
         {
-            string fileExtension = Path.GetExtension(filesFull[_selectedItem]).ToLower();
+            string fileExtension = Path.GetExtension(filesFull[selectedIndex]).ToLower();
 
             switch (fileExtension)
             {
@@ -118,25 +129,25 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 case ".wav":
                     selectedOption = SelectedOption.Font;
                     optionType = OptionsType.Audio;
-                    addButtonText = $"Add {files[_selectedItem]} as Sound";
+                    addButtonText = $"Add {files[selectedIndex]} as Sound";
                     break;
 
                 case ".ogg":
                     selectedOption = SelectedOption.Audio;
                     optionType = OptionsType.Audio;
-                    addButtonText = $"Add {files[_selectedItem]} as Song";
+                    addButtonText = $"Add {files[selectedIndex]} as Song";
                     break;
 
                 case ".ttf":
                     selectedOption = SelectedOption.Font;
                     optionType = OptionsType.Font;
-                    addButtonText = $"Add {files[_selectedItem]} as Font";
+                    addButtonText = $"Add {files[selectedIndex]} as Font";
                     break;
 
                 case ".level":
                     selectedOption = SelectedOption.Level;
                     optionType = OptionsType.Level;
-                    addButtonText = $"Add {files[_selectedItem]} as Level";
+                    addButtonText = $"Add {files[selectedIndex]} as Level";
                     break;
 
                 default:
@@ -156,7 +167,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 if (!none)
                 {
                     parent.Visible = false;
-                    new MessageBox($"Unsupported file format ({Path.GetExtension(files[_selectedItem])})!", callback: (result) =>
+                    new MessageBox($"Unsupported file format ({Path.GetExtension(files[selectedIndex])})!", callback: (result) =>
                     {
                         none = false;
                     }).Show();
@@ -169,32 +180,32 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
         {
             ImGui.BeginGroup();
 
-            if (selectedOption == SelectedOption.Image) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.Image) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##sprite-button", ResourceManager.GetImGuiTexture("ui/addContent/image-file"), new Vector2(64)))
             {
                 selectedOption = SelectedOption.Image;
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.SameLine();
 
-            if (selectedOption == SelectedOption.ImageSqnc) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.ImageSqnc) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##animation-sprite-button", ResourceManager.GetImGuiTexture($"ui/addContent/{spAnimFile}"), new Vector2(64)))
             {
                 selectedOption = SelectedOption.ImageSqnc;
                 addButtonText = "Add *.png as Sequence";
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.SameLine();
 
-            if (selectedOption == SelectedOption.Icon) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.Icon) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##icon-button", ResourceManager.GetImGuiTexture("ui/addContent/icon-file"), new Vector2(64)))
             {
                 selectedOption = SelectedOption.Icon;
-                addButtonText = $"Add {files[_selectedItem]} as Icon";
+                addButtonText = $"Add {files[selectedIndex]} as Icon";
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.EndGroup();
         }
@@ -207,7 +218,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 {
                     try
                     {
-                        string imagePath = AddContentWindow.filesFull[_selectedItem];
+                        string imagePath = AddContentWindow.filesFull[selectedIndex];
                         string destFolder = saveInUI
                             ? Path.Combine(Globals.projectContentFolderPath, "images/ui")
                             : Path.Combine(Globals.projectContentFolderPath, "images");
@@ -230,7 +241,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 {
                     try
                     {
-                        string originalPath = AddContentWindow.filesFull[_selectedItem];
+                        string originalPath = AddContentWindow.filesFull[selectedIndex];
                         string destFolder = Path.Combine(Globals.projectContentFolderPath, "images/icon");
 
                         using (var icoImg = new MagickImage(originalPath))
@@ -259,23 +270,23 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
         {
             ImGui.BeginGroup();
 
-            if (selectedOption == SelectedOption.Font) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.Font) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##sound-button", ResourceManager.GetImGuiTexture("ui/contentExplorer/audio-file"), new Vector2(64)))
             {
-                addButtonText = $"Add {files[_selectedItem]} as Sound";
+                addButtonText = $"Add {files[selectedIndex]} as Sound";
                 selectedOption = SelectedOption.Font;
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.SameLine();
 
-            if (selectedOption == SelectedOption.Audio) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.Audio) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##song-button", ResourceManager.GetImGuiTexture($"ui/contentExplorer/audio-file"), new Vector2(64)))
             {
-                addButtonText = $"Add {files[_selectedItem]} as Song";
+                addButtonText = $"Add {files[selectedIndex]} as Song";
                 selectedOption = SelectedOption.Audio;
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.EndGroup();
         }
@@ -288,7 +299,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 {
                     try
                     {
-                        string songPath = AddContentWindow.filesFull[_selectedItem];
+                        string songPath = AddContentWindow.filesFull[selectedIndex];
                         string ext = Path.GetExtension(songPath);
 
                         string destFolder = Path.Combine(Globals.projectContentFolderPath, "songs");
@@ -309,7 +320,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 {
                     try
                     {
-                        string soundPath = AddContentWindow.filesFull[_selectedItem];
+                        string soundPath = AddContentWindow.filesFull[selectedIndex];
                         string ext = Path.GetExtension(soundPath);
 
                         string destFolder = Path.Combine(Globals.projectContentFolderPath, "sounds");
@@ -333,13 +344,13 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
         {
             ImGui.BeginGroup();
 
-            if (selectedOption == SelectedOption.Font) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.Font) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##font-button", ResourceManager.GetImGuiTexture("ui/contentExplorer/font-file"), new Vector2(64)))
             {
-                addButtonText = $"Add {files[_selectedItem]} as Font";
+                addButtonText = $"Add {files[selectedIndex]} as Font";
                 selectedOption = SelectedOption.Font;
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.EndGroup();
         }
@@ -351,7 +362,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 {
                     try
                     {
-                        string fontPath = AddContentWindow.filesFull[_selectedItem];
+                        string fontPath = AddContentWindow.filesFull[selectedIndex];
                         string destFolder = Path.Combine(Globals.projectContentFolderPath, "fonts");
                         string destPath = Path.Combine(destFolder, Path.GetFileName(fontPath));
 
@@ -370,13 +381,13 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
         {
             ImGui.BeginGroup();
 
-            if (selectedOption == SelectedOption.Level) DebugWindowStyle.PushAccent();
+            if (selectedOption == SelectedOption.Level) WindowTheme.PushAccent();
             if (ImGui.ImageButton("##level-button", ResourceManager.GetImGuiTexture("ui/contentExplorer/level-file"), new Vector2(64)))
             {
-                addButtonText = $"Add {files[_selectedItem]} as Level";
+                addButtonText = $"Add {files[selectedIndex]} as Level";
                 selectedOption = SelectedOption.Level;
             }
-            DebugWindowStyle.PopAccent();
+            WindowTheme.PopAccent();
 
             ImGui.EndGroup();
         }
@@ -388,7 +399,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                 {
                     try
                     {
-                        string levelPath = AddContentWindow.filesFull[_selectedItem];
+                        string levelPath = AddContentWindow.filesFull[selectedIndex];
                         string destFolder = Path.Combine(Globals.projectContentFolderPath, "levels");
                         string destPath = Path.Combine(destFolder, Path.GetFileName(levelPath));
 
@@ -413,7 +424,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
         Audio,
 
         Font,
-        
+
         Level
     }
 

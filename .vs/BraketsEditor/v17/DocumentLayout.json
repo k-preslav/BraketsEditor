@@ -3,64 +3,76 @@
   "WorkspaceRootPath": "D:\\BraketsEditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\utils\\openfileineditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\utils\\openfileineditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editorui\\toolswindows\\views\\diagnosticsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editorui\\toolswindows\\views\\diagnosticsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\addcontentwindow\\addcontentwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\addcontentwindow\\addcontentwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\engine\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\engine\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editormanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editormanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\newobjectwindow\\newobjwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\newobjectwindow\\newobjwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\engine\\debug\\debugui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\engine\\debug\\debugui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\contentbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\contentbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\buildmanager\\buildmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\buildmanager\\buildmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\globalmenubar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\globalmenubar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editorwindows\\messagebox\\messagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editorwindows\\messagebox\\messagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\newobjectwindow\\newobjwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\newobjectwindow\\newobjwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\contentpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\contentpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\contentbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\contentbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\objectcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\objectcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editormanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editormanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\objectspanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\objectspanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editorui\\throbber\\throbber.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editorui\\throbber\\throbber.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\engine\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\engine\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\addcontentwindow\\addcontentwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\addcontentwindow\\addcontentwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editorui\\messagebox\\messagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editorui\\messagebox\\messagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\utils\\openfileineditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\utils\\openfileineditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editorui\\toolswindows\\maintoolswindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editorui\\toolswindows\\maintoolswindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\propertiesandsettings\\gamepropertieswindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\propertiesandsettings\\gamepropertieswindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\editorwindows\\toolswindows\\views\\diagnosticsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\editorwindows\\toolswindows\\views\\diagnosticsview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\objectspanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\objectspanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\buildmanager\\buildmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\buildmanager\\buildmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\objectcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\objectcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\contentpicker\\contentpicker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\contentpicker\\contentpicker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\contentpicker\\contentpickerbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\contentpicker\\contentpickerbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\contents\\contentpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\contents\\contentpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\engine\\utilities\\bridge\\bridgeserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -69,6 +81,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\editor\\objects\\objectbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\editor\\objects\\objectbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|d:\\braketseditor\\braketseditor\\engine\\debug\\debugui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F611F17E-2997-49AC-94CE-EE6888EAE766}|BraketsEditor\\BraketsEditor.csproj|solutionrelative:braketseditor\\engine\\debug\\debugui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,176 +94,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "OpenFIleInEditor.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
-              "RelativeToolTip": "BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAANAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "Throbber.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\Throbber\\Throbber.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorUI\\Throbber\\Throbber.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\Throbber\\Throbber.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\EditorUI\\Throbber\\Throbber.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T09:03:22.722Z",
+              "WhenOpened": "2024-08-29T18:38:25.16Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
+              "Title": "MainToolsWindow.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\MainToolsWindow.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\MainToolsWindow.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\MainToolsWindow.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\MainToolsWindow.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAACMAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T16:12:41.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "ObjectsPanel.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\ObjectsPanel.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Objects\\ObjectsPanel.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\ObjectsPanel.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\Objects\\ObjectsPanel.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAD4vz4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAgwD0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T13:44:18.254Z",
+              "WhenOpened": "2024-08-29T15:37:35.044Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "BuildManager.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
-              "RelativeToolTip": "BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAQwGoAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T13:33:37.691Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AddContentWindow.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
-              "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAqwFYAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T15:17:59.734Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Main.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Main.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Engine\\Main.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Main.cs",
-              "RelativeToolTip": "BraketsEditor\\Engine\\Main.cs",
-              "ViewState": "AgIAALEAAAAAAAAAAAAMwMIAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-28T12:40:08.493Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "NewObjWindow.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\NewObjectWindow\\NewObjWindow.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Objects\\NewObjectWindow\\NewObjWindow.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\NewObjectWindow\\NewObjWindow.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\Objects\\NewObjectWindow\\NewObjWindow.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAQwDQAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAASwH0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T14:53:02.742Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "ObjectCreator.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\ObjectCreator.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Objects\\ObjectCreator.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\ObjectCreator.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\Objects\\ObjectCreator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T13:25:48.528Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "GlobalMenuBar.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\GlobalMenuBar.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\GlobalMenuBar.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\GlobalMenuBar.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\GlobalMenuBar.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAADwv5AAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAMwIgAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T14:44:15.358Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "EditorManager.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorManager.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorManager.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorManager.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\EditorManager.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAADgvysAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABYAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T14:32:47.16Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "MessageBox.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorWindows\\MessageBox\\MessageBox.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorWindows\\MessageBox\\MessageBox.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorWindows\\MessageBox\\MessageBox.cs",
-              "RelativeToolTip": "BraketsEditor\\Editor\\EditorWindows\\MessageBox\\MessageBox.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwCYAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-28T18:04:55.685Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ContentPanel.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
-              "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwGcAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T14:31:05.378Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DebugUI.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Debug\\DebugUI.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Engine\\Debug\\DebugUI.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Debug\\DebugUI.cs",
-              "RelativeToolTip": "BraketsEditor\\Engine\\Debug\\DebugUI.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAArwHgAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T13:21:35.967Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "ContentButton.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentButton.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\ContentButton.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentButton.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\ContentButton.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAwwFcAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T14:36:21.526Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "DebugUI.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Debug\\DebugUI.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Engine\\Debug\\DebugUI.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Debug\\DebugUI.cs",
+              "RelativeToolTip": "BraketsEditor\\Engine\\Debug\\DebugUI.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAWwDQAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T13:21:35.967Z"
             },
             {
               "$type": "Document",
@@ -257,46 +220,150 @@
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\PropertiesAndSettings\\GamePropertiesWindow.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\PropertiesAndSettings\\GamePropertiesWindow.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\PropertiesAndSettings\\GamePropertiesWindow.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAIwCsAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAIwDIAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T14:56:48.073Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 8,
+              "Title": "AddContentWindow.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\AddContentWindow\\AddContentWindow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T15:17:59.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ContentPicker.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPicker.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPicker.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPicker.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPicker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T11:35:24.465Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ContentPickerButton.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPickerButton.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPickerButton.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPickerButton.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\ContentPicker\\ContentPickerButton.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T11:45:13.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Main.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Main.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Engine\\Main.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Main.cs",
+              "RelativeToolTip": "BraketsEditor\\Engine\\Main.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAowD4AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-28T12:40:08.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "OpenFIleInEditor.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\Utils\\OpenFIleInEditor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-29T12:29:49.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MessageBox.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\MessageBox\\MessageBox.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorUI\\MessageBox\\MessageBox.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\MessageBox\\MessageBox.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\EditorUI\\MessageBox\\MessageBox.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAgwCwAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-28T18:04:55.685Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ContentPanel.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\Contents\\ContentPanel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T14:31:05.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BuildManager.cs",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\BuildManager\\BuildManager.cs",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAIwGkAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T13:33:37.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "DiagnosticsView.cs",
-              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorWindows\\ToolsWindows\\Views\\DiagnosticsView.cs",
-              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorWindows\\ToolsWindows\\Views\\DiagnosticsView.cs",
-              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorWindows\\ToolsWindows\\Views\\DiagnosticsView.cs",
-              "RelativeToolTip": "BraketsEditor\\Editor\\EditorWindows\\ToolsWindows\\Views\\DiagnosticsView.cs",
-              "ViewState": "AgIAAJ4AAAAAAAAAAAAQwLsAAAAtAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\Views\\DiagnosticsView.cs",
+              "RelativeDocumentMoniker": "BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\Views\\DiagnosticsView.cs",
+              "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\Views\\DiagnosticsView.cs",
+              "RelativeToolTip": "BraketsEditor\\Editor\\EditorUI\\ToolsWindows\\Views\\DiagnosticsView.cs",
+              "ViewState": "AgIAAKEAAAAAAAAAAAASwLYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-26T21:58:18.025Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "BridgeServer.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Utilities\\Bridge\\BridgeServer.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Engine\\Utilities\\Bridge\\BridgeServer.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Engine\\Utilities\\Bridge\\BridgeServer.cs",
               "RelativeToolTip": "BraketsEditor\\Engine\\Utilities\\Bridge\\BridgeServer.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAowDUAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwDUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T15:15:46.292Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "ObjectButton.cs",
               "DocumentMoniker": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\ObjectButton.cs",
               "RelativeDocumentMoniker": "BraketsEditor\\Editor\\Objects\\ObjectButton.cs",
               "ToolTip": "D:\\BraketsEditor\\BraketsEditor\\Editor\\Objects\\ObjectButton.cs",
               "RelativeToolTip": "BraketsEditor\\Editor\\Objects\\ObjectButton.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAIwC0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAIAwwBYAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T13:24:46.215Z",
               "EditorCaption": ""

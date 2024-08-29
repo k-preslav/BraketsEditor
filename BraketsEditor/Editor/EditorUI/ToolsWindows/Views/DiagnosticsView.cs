@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
@@ -89,6 +90,8 @@ public class DiagnosticsView
                 {
                     OpenInExplorer.OpenDebugDataFolder();
                 }
+
+                DrawLog(full: true);
             }
             return;
         }
@@ -97,11 +100,14 @@ public class DiagnosticsView
             ImGui.NewLine();
 
             ImGui.Text("Starting application...");
-            Globals.EditorManager.Status = "Starting...";
+            
+            if (!Globals.EditorManager.Status.Contains("Debugger")) 
+                Globals.EditorManager.Status = "Starting...";
 
             return;
         }
 
+        Throbber.visible = false;
         Globals.EditorManager.Status = "Application Running...";
         
         fpsValues.Add(currentFps);
@@ -165,9 +171,17 @@ public class DiagnosticsView
         ImGui.PlotHistogram($"Active Threads {currentThreadsCount}", ref threadsArray[0], threadsArray.Length, 0, null, 0, threadsMaxScale, new System.Numerics.Vector2(0, 50));
 
         ImGui.NewLine();
+
+        DrawLog(full:false);
+    }
+
+    static void DrawLog(bool full)
+    {
+        ImGui.Spacing();
+        ImGui.SeparatorText("Console");
+
         ImGui.BeginChild("ConsoleMessages", new Vector2(0, -10).ToNumerics(), ImGuiChildFlags.Border, ImGuiWindowFlags.HorizontalScrollbar);
-        
-        // LOG
+
         bool autoScroll = false;
         if (ImGui.GetScrollY() >= ImGui.GetScrollMaxY())
         {
@@ -176,7 +190,7 @@ public class DiagnosticsView
 
         if (logMessages.Count > MaxValues) logMessages.Clear();
 
-        foreach (var message in logMessages.ToList())
+        foreach (var message in full ? logMessagesFull.ToList() : logMessages.ToList())
         {
             if (message.ToLower().Contains("error"))
                 ImGui.TextColored(new Vector4(0.8f, 0, 0, 1).ToNumerics(), message);
@@ -185,7 +199,10 @@ public class DiagnosticsView
             else if (message.ToLower().Contains("warning"))
                 ImGui.TextColored(new Vector4(1, 1, 0, 1).ToNumerics(), message);
             else
-                ImGui.TextColored(Color.LightCyan.ToVector4().ToNumerics(), message);
+                ImGui.TextColored(
+                    WindowTheme.currentTheme == "dark" ? Color.LightCyan.ToVector4().ToNumerics()
+                    : Color.Black.ToVector4().ToNumerics(), message
+                );
         }
 
         if (autoScroll)

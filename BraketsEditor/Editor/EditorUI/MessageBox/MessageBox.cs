@@ -18,7 +18,7 @@ public class MessageBox : DebugWindow
         : base("Attention", overridePos:true, overrideSize:true, visible: false, topmost: true, 
             flags: ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize)
     {
-        base.Size = new Vector2(ImGui.CalcTextSize(message).X + 25, 115);
+        base.Size = new Vector2(ImGui.CalcTextSize(message).X + 35, 120);
         base.Pos = new Vector2(Globals.APP_Width / 2 - base.Size.X / 2, Globals.APP_Height / 2 - base.Size.Y / 2);
         Globals.DEBUG_UI.AddWindow(this);
         
@@ -42,7 +42,7 @@ public class MessageBox : DebugWindow
 
         if (option2Text != string.Empty)
         {
-            ImGui.SetCursorPos(new Vector2(this.Size.X - (ImGui.CalcTextSize(option2Text).X + ImGui.CalcTextSize(option1Text).X + 45), this.Size.Y - 40));
+            ImGui.SetCursorPos(new Vector2(this.Size.X - (ImGui.CalcTextSize(option2Text).X + ImGui.CalcTextSize(option1Text).X + 45), this.Size.Y - 45));
             if (ImGui.Button(option2Text))
             {
                 result = 2;
@@ -53,7 +53,8 @@ public class MessageBox : DebugWindow
             ImGui.SameLine();
         }
 
-        ImGui.SetCursorPos(new Vector2(this.Size.X - (ImGui.CalcTextSize(option1Text).X + 25), this.Size.Y - 40));
+        ImGui.SetCursorPos(new Vector2(this.Size.X - (ImGui.CalcTextSize(option1Text).X + 25), this.Size.Y - 45));
+        WindowTheme.PushAccent();
         if (ImGui.Button(option1Text))
         {
             result = 1;
@@ -61,6 +62,7 @@ public class MessageBox : DebugWindow
             if (callback is not null) 
                 callback(result);
         }
+        WindowTheme.PopAccent();
     }
 }
 

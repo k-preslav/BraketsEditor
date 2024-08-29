@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using BraketsEditor;
+using BraketsEditor.Editor;
 using BraketsEditor.Editor.Contents.AddContentWindow;
 using FontStashSharp;
 using ImageMagick;
@@ -68,6 +70,11 @@ public class Main : Game
 
         this.Sprites = new List<Sprite>();
         this.UI = new List<UIElement>();
+
+        _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.25);
+        _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.25);
+        _graphics.ApplyChanges();
+        OnResize(Window, EventArgs.Empty);
 
         base.Initialize();
     }
@@ -161,7 +168,7 @@ public class Main : Game
     private void OnFileDrop(object sender, FileDropEventArgs e)
     {
         AddContentWindow.files.Clear();
-        AddContentWindow.filesFull = null;
+        AddContentWindow.filesFull.Clear();
 
         var extensions = new Dictionary<string, int>();
         var filesToRetain = new List<string>();
@@ -180,14 +187,12 @@ public class Main : Game
             if (Path.GetExtension(file).ToLower() == mostCommonExtension)
             {
                 AddContentWindow.files.Add(Path.GetFileNameWithoutExtension(file));
-                filesToRetain.Add(file);
+                AddContentWindow.filesFull.Add(file);
             }
         }
 
-        Globals.DEBUG_UI.GetWindow("Add new Content").Visible = true;
-
-        AddContentWindow.filesFull = filesToRetain.ToArray();
         AddContentWindow.UpdateOptionType();
+        Globals.DEBUG_UI.GetWindow("Add new Content").Visible = true;
     }
 
     private void OnResize(object sender, EventArgs e)

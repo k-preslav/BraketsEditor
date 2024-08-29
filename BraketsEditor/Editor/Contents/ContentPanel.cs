@@ -9,7 +9,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BraketsEditor.Editor.ContentElements;
+namespace BraketsEditor.Editor;
 
 public class ContentPanel
 {
@@ -63,6 +63,7 @@ public class ContentPanel
             {
                 ImGui.PushID($"content{i}");
                 ImGui.BeginGroup();
+                ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 5);
                 content[i].DrawGrid(parent);
                 ImGui.EndGroup();
                 ImGui.PopID();

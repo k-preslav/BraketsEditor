@@ -1,3 +1,4 @@
+using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
@@ -22,6 +23,7 @@ public class GlobalMenuBar
                     if (Globals.IS_DEV_BUILD)
                     {
                         Debug.Warning("Cannot create new project! This is a DEV_BUILD!");
+                        new MessageBox("Operation could not be completed!\nRunning a DEV_BUILD!").Show();
                         return;
                     }
                     ProjectManager.NewProject();
@@ -31,6 +33,7 @@ public class GlobalMenuBar
                     if (Globals.IS_DEV_BUILD)
                     {
                         Debug.Warning("Cannot open a project! This is a DEV_BUILD!");
+                        new MessageBox("Operation could not be completed!\nRunning a DEV_BUILD!").Show();
                         return;
                     }
 
@@ -66,8 +69,11 @@ public class GlobalMenuBar
                 ImGui.Separator();
                 if (ImGui.BeginMenu("Style"))
                 {
-                    if (ImGui.MenuItem("Visual Studio")) DebugWindowStyle.VisualStudio();
-                    if (ImGui.MenuItem("Classic Valve")) DebugWindowStyle.ClassicValve();
+                    if (ImGui.MenuItem("Visual Studio")) WindowTheme.Dark();
+                    if (ImGui.MenuItem("Light")) WindowTheme.Light();
+
+                    if (ImGui.Checkbox("Rounded", ref WindowTheme.rounded)) 
+                        WindowTheme.Refresh();
                     
                     ImGui.EndMenu();
                 }
@@ -109,29 +115,37 @@ public class GlobalMenuBar
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5, 0).ToNumerics());
             ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0).ToNumerics());
             ImGui.SetCursorPosX((ImGui.GetWindowSize().X - 300) / 2);
-            if (ImGui.Button("Build", new Vector2(55, Globals.DEBUG_UI_MENUBAR_SIZE_Y - 1).ToNumerics()))
+
+            if (!BuildManager.isDoneRunning) ImGui.BeginDisabled();
+            if (ImGui.ImageButton("###runButton", ResourceManager.GetImGuiTexture("ui/run/run"), new Vector2(18).ToNumerics()))
             {
-                Debug.Log("Building application...");
-                await BuildManager.Build();
+                Debug.Log("Running application...");
+                BuildManager.Run();
             }
-            if (ImGui.Button(BuildManager.runButtonText, new Vector2(55, Globals.DEBUG_UI_MENUBAR_SIZE_Y - 1).ToNumerics()))
+            if (!BuildManager.isDoneRunning) ImGui.EndDisabled();
+
+            if (ImGui.ImageButton("###runDebugButton", ResourceManager.GetImGuiTexture(!BuildManager.isDoneRunning ? "ui/run/stop" : "ui/run/runDebug"), new Vector2(18).ToNumerics()))
             {
                 if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
                 {
                     buildAndRun = new Thread(async () =>
                     {
+                        Throbber.visible = true;
+
                         Debug.Log("Building application...");
                         await BuildManager.Build();
-                        Debug.Log("Running application...");
-                        BuildManager.Run();
+                        Debug.Log("Running application in DebugMode...");
+
+                        BuildManager.RunDebug();
                     });
                     buildAndRun.Start();
                     buildAndRun.Join();
                 }
                 else
                 {
+                    Throbber.visible = false;
                     BuildManager.runButtonText = "Run";
-                    BuildManager.Run();
+                    BuildManager.RunDebug();
                     buildAndRun.Join();
                 }
             }
@@ -140,12 +154,13 @@ public class GlobalMenuBar
             if (Globals.IS_DEV_BUILD)
             {
                 ImGui.SetCursorPosX((ImGui.GetWindowSize().X - 500));
-                ImGui.TextColored(Color.Gray.ToVector4().ToNumerics(), "DEB_BUILD");
+                ImGui.TextColored(Color.Gray.ToVector4().ToNumerics(), "DEV_BUILD");
             }
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5, 0).ToNumerics());
             ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0).ToNumerics());
             ImGui.SetCursorPosX(ImGui.GetWindowSize().X - ImGui.CalcTextSize(Globals.EditorManager.Status).X - 10);
+            Throbber.Draw(ImGui.GetWindowSize().X - ImGui.CalcTextSize(Globals.EditorManager.Status).X - 35, 17);
             ImGui.Text(Globals.EditorManager.Status);
             ImGui.PopStyleVar(2);
             

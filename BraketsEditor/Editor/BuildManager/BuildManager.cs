@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using BraketsEditor.Editor;
 using BraketsEngine;
 
 namespace BraketsEditor;
@@ -67,7 +68,7 @@ public class BuildManager
         await buildProcess.WaitForExitAsync();
     }
 
-    public static async void Run()
+    public static async void RunDebug()
     {
         if (!isDoneRunning) 
         {
@@ -102,7 +103,8 @@ public class BuildManager
         runProcess.OutputDataReceived += (sender, args) =>
         {
             runButtonText = "Stop";
-            
+            Globals.EditorManager.Status = "Starting Debugger...";
+
             if (args.Data != null)
             {
                 DiagnosticsView.AddMessageToLog(args.Data);
@@ -123,6 +125,7 @@ public class BuildManager
         runProcess.Exited += (object sender, EventArgs a) =>
         {
             Globals.EditorManager.Status = "Ready";
+            Throbber.visible = false;
 
             DiagnosticsView.Reset();
             DiagnosticsView.showGraphs = false;
@@ -143,4 +146,65 @@ public class BuildManager
 
         await runProcess.WaitForExitAsync();            
     }
+
+    public static async void Run()
+    {
+        Globals.EditorManager.Status = "Starting...";
+        Throbber.visible = true;
+
+        using (var runProcess = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = $"run --project {Globals.projectPath}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WorkingDirectory = Globals.projectPath
+            }
+        })
+        {
+            runProcess.OutputDataReceived += (sender, args) =>
+            {
+                runButtonText = "Stop";
+                Globals.EditorManager.Status = "Application Running...";
+                Throbber.visible = false;
+
+                if (args.Data != null)
+                {
+                    DiagnosticsView.AddMessageToLog(args.Data);
+                }
+            };
+
+            runProcess.ErrorDataReceived += (sender, args) =>
+            {
+                if (args.Data != null)
+                {
+                    DiagnosticsView.AddMessageToLog(args.Data);
+                    BraketsEngine.Debug.Error(args.Data);
+
+                    // TODO: Show a message that the build/run has failed and show the error
+                }
+            };
+
+            runProcess.Exited += (sender, e) =>
+            {
+                Globals.EditorManager.Status = "Ready";
+                Throbber.visible = false;
+
+                isDoneRunning = true;
+                runButtonText = "Run";
+
+                BraketsEngine.Debug.Log("Run process done!");
+            };
+
+            runProcess.Start();
+            runProcess.BeginOutputReadLine();
+            runProcess.BeginErrorReadLine();
+            await runProcess.WaitForExitAsync();
+        }
+    }
+
 }
