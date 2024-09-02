@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BraketsEditor;
 public class DiagnosticsView
@@ -45,11 +47,12 @@ public class DiagnosticsView
     };
     static int _refreshIntervalSelectedIndex = 1;
 
+    internal static bool areDiagnosticsAvailable = false;
+    static bool areDiagnosticsDownloaded = false;
+    static string dwnldDataBText = "Download data";
+
     public static void Draw()
     {
-        if (currentDt <= 0 && currentMemory <= 0) hasLaunched = false;
-        else hasLaunched = true;
-
         if (ImGui.Combo("Refresh Interval", ref _refreshIntervalSelectedIndex, refreshIntervalOptions, refreshIntervalOptions.Length))
         {
             float n = BuildManager.diagnosticRefreshRate;
@@ -66,50 +69,58 @@ public class DiagnosticsView
         {
             ImGui.NewLine();
 
-            if (fpsValuesFull.Count == 0)
+            if (fpsValuesFull.Count == 0 || !areDiagnosticsAvailable)
                 ImGui.Text("No diagnostic data.");
             else
             {
-                ImGui.Text("Download lates diagnostics:");
-                ImGui.Spacing();
-
-                if (ImGui.Button("Download graphs"))
+                if (areDiagnosticsAvailable)
                 {
-                    DownloadGraphs();
-                }
-                ImGui.SameLine();
-                if (ImGui.Button("Download log"))
-                {
-                    DownloadLog();
-                }
+                    ImGui.Text("See lates diagnostics:");
+                    ImGui.Spacing();
 
-                ImGui.Spacing();
-                ImGui.Separator();
-                ImGui.Spacing();
-                if (ImGui.Button("Open Diagnostics Folder"))
-                {
-                    OpenInExplorer.OpenDebugDataFolder();
-                }
+                    if (!areDiagnosticsDownloaded)
+                    {
+                        if (ImGui.Button(dwnldDataBText, new System.Numerics.Vector2(150, 35)))
+                        {
+                            new Task(async() =>
+                            {
+                                dwnldDataBText = "...";
+                                Throbber.visible = true;
+                                Globals.EditorManager.Status = "Saving diagnostics...";
 
-                DrawLog(full: true);
+                                await DownloadGraphs();
+                                await DownloadLog();
+                                
+                                dwnldDataBText = "Save data";
+                                Throbber.visible = false;
+                                Globals.EditorManager.Status = "Ready";
+
+                                areDiagnosticsDownloaded = true;
+                            }).RunSynchronously();
+                        }
+                        ImGui.SameLine();
+                        ImGui.Spacing();
+                        ImGui.SameLine();
+                    }
+
+                    if (ImGui.Button("Open Diagnostics Folder", new System.Numerics.Vector2(200, 35)))
+                    {
+                        OpenInExplorer.OpenDebugDataFolder();
+                    }
+                }
             }
+
+            DrawLog(full: true);
             return;
         }
         else if (showGraphs && !hasLaunched)
         {
             ImGui.NewLine();
-
-            ImGui.Text("Starting application...");
-            
-            if (!Globals.EditorManager.Status.Contains("Debugger")) 
-                Globals.EditorManager.Status = "Starting...";
+            ImGui.Text("Starting application...");    
 
             return;
         }
 
-        Throbber.visible = false;
-        Globals.EditorManager.Status = "Application Running...";
-        
         fpsValues.Add(currentFps);
         fpsValuesFull.Add(currentFps);
 
@@ -175,12 +186,57 @@ public class DiagnosticsView
         DrawLog(full:false);
     }
 
+    public static void Update()
+    {
+        if (currentDt <= 0 && currentMemory <= 0) hasLaunched = false;
+        else hasLaunched = true;
+
+        if (!showGraphs && !hasLaunched)
+        {
+            return;
+        }
+
+        if (showGraphs && !hasLaunched)
+        {
+            Globals.EditorManager.Status = "Starting Run Service...";
+            Throbber.visible = true;
+            
+            return;
+        }
+
+        Throbber.visible = false;
+
+        int hours = (int)TimeSpan.FromSeconds(BuildManager.runningTimer).TotalHours;
+        int minutes = (int)TimeSpan.FromSeconds(BuildManager.runningTimer).TotalMinutes;
+        int seconds = (int)TimeSpan.FromSeconds(BuildManager.runningTimer).TotalSeconds;
+
+        Globals.EditorManager.Status = $"Application Running... " +
+            $"{(hours > 0 ? ($"{hours:00}:") : "")}" +
+            $"{minutes:00}:" +
+            $"{seconds:00}";
+    }
+
     static void DrawLog(bool full)
     {
+        if (full)
+            ImGui.SetCursorPosY(ImGui.GetWindowSize().Y / 3);
+
         ImGui.Spacing();
         ImGui.SeparatorText("Console");
+        ImGui.SameLine();
+        ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 10);
 
-        ImGui.BeginChild("ConsoleMessages", new Vector2(0, -10).ToNumerics(), ImGuiChildFlags.Border, ImGuiWindowFlags.HorizontalScrollbar);
+        string copyTexture = WindowTheme.currentTheme == "dark" ? "ui/copy/copy-white" : "ui/copy/copy-black";
+        if (ImGui.ImageButton("###copy-log_button", ResourceManager.GetImGuiTexture(copyTexture), new Vector2(16).ToNumerics()))
+        {
+            string fullLog = "";
+            foreach (var log in logMessagesFull)
+                fullLog += (log + "\n");
+
+            TextCopy.ClipboardService.SetText(fullLog);
+        }
+
+        ImGui.BeginChild("ConsoleMessages", new Vector2(0, -1).ToNumerics(), ImGuiChildFlags.Border, ImGuiWindowFlags.HorizontalScrollbar);
 
         bool autoScroll = false;
         if (ImGui.GetScrollY() >= ImGui.GetScrollMaxY())
@@ -188,21 +244,28 @@ public class DiagnosticsView
             autoScroll = true;
         }
 
-        if (logMessages.Count > MaxValues) logMessages.Clear();
+        if (logMessages.Count > MaxValues) logMessages = logMessages.Take(1000).ToList();
 
-        foreach (var message in full ? logMessagesFull.ToList() : logMessages.ToList())
+        try
         {
-            if (message.ToLower().Contains("error"))
-                ImGui.TextColored(new Vector4(0.8f, 0, 0, 1).ToNumerics(), message);
-            else if (message.ToLower().Contains("fatal"))
-                ImGui.TextColored(new Vector4(1, 0, 0, 1).ToNumerics(), message);
-            else if (message.ToLower().Contains("warning"))
-                ImGui.TextColored(new Vector4(1, 1, 0, 1).ToNumerics(), message);
-            else
-                ImGui.TextColored(
-                    WindowTheme.currentTheme == "dark" ? Color.LightCyan.ToVector4().ToNumerics()
-                    : Color.Black.ToVector4().ToNumerics(), message
-                );
+            foreach (var message in full ? logMessagesFull.Take(1000).ToList() : logMessages.ToList())
+            {
+                if (message.ToLower().Contains("error"))
+                    ImGui.TextColored(new Vector4(0.8f, 0, 0, 1).ToNumerics(), message);
+                else if (message.ToLower().Contains("fatal"))
+                    ImGui.TextColored(new Vector4(1, 0, 0, 1).ToNumerics(), message);
+                else if (message.ToLower().Contains("warning"))
+                    ImGui.TextColored(new Vector4(1, 1, 0, 1).ToNumerics(), message);
+                else
+                    ImGui.TextColored(
+                        WindowTheme.currentTheme == "dark" ? Color.LightCyan.ToVector4().ToNumerics()
+                        : Color.Black.ToVector4().ToNumerics(), message
+                    );
+            }
+        }
+        catch (Exception ex)
+        {
+            BraketsEngine.Debug.Error($"Failed to draw debug messages in console! \nEX: {ex.Message}");
         }
 
         if (autoScroll)
@@ -243,6 +306,9 @@ public class DiagnosticsView
         threadsCountsFull.Clear();
         logMessagesFull.Clear();
 
+        areDiagnosticsDownloaded = false;
+        areDiagnosticsAvailable = false;
+
         string graphPath = $"{Globals.projectPath}/DEBUG_DATA/graphs.csv";
         string logPath = $"{Globals.projectPath}/DEBUG_DATA/log.txt";
         if (File.Exists(graphPath)) File.Delete(graphPath);
@@ -255,7 +321,7 @@ public class DiagnosticsView
         logMessagesFull.Add($"[{DateTime.Now}] {msg}");
     }
 
-    private static void DownloadGraphs()
+    private static async Task DownloadGraphs()
     {
         string directory = $"{Globals.projectPath}/DEBUG_DATA";
         string path = $"{directory}/graphs.csv";
@@ -270,13 +336,13 @@ public class DiagnosticsView
             for (int i = 0; i < fpsValuesFull.Count; i++)
             {
                 string line = $"{fpsValuesFull[i]},{dtValuesFull[i]},{memoryValuesFull[i]},{spritesCountsFull[i]},{GC_CallsFull[i]},{threadsCountsFull[i]}";
-                writer.WriteLine(line);
+                await writer.WriteLineAsync(line);
             }
         }
 
         BraketsEngine.Debug.Log($"Graphs saved as CSV to path: {path}");
     }
-    private static async void DownloadLog()
+    private static async Task DownloadLog()
     {
         string directory = $"{Globals.projectPath}/DEBUG_DATA";
         string path = $"{directory}/log.txt";

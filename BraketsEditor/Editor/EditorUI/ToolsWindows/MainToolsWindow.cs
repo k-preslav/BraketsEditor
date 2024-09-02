@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
@@ -11,11 +13,21 @@ public struct ToolTab
 {
     public string name;
     public Action view;
+    public Action update;
 }
 
 public class MainToolsWindow
 {
     public static List<ToolTab> tabs = new List<ToolTab>();
+
+    public static void Create()
+    {
+        PluginAbstraction.MakeWindow("Tools", (window) =>
+        {
+            MainToolsWindow.Draw(window);
+        }, () => { }, _flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoBringToFrontOnFocus, 
+                      _overridePos: true, _overrideSize: true);
+    }
 
     public static void Draw(DebugWindow parent)
     {
@@ -24,7 +36,7 @@ public class MainToolsWindow
         
         if (ImGui.BeginTabBar("ToolsTabBar", ImGuiTabBarFlags.Reorderable | ImGuiTabBarFlags.AutoSelectNewTabs))
         {
-            foreach (var tab in tabs)
+            foreach (var tab in tabs.ToList())
             {
                 if (ImGui.BeginTabItem(tab.name))
                 {
@@ -35,15 +47,23 @@ public class MainToolsWindow
         }
         ImGui.EndTabBar();
     }
-
-    public static void AddTab(ToolTab newTab)
+    public static void Update()
     {
-        foreach (var tab in tabs)
+        foreach (var tab in tabs.ToList())
+        {
+            tab.update?.Invoke();
+        }
+    }
+
+    public static async void AddTab(ToolTab newTab)
+    {
+        foreach (var tab in tabs.ToList())
         {
             if (tab.name == newTab.name)
-                return;
+                tabs.Remove(tab);
         }
 
+        await Task.Delay(100);
         tabs.Add(newTab);
     }
 }

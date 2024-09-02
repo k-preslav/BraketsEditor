@@ -1,7 +1,9 @@
 using System.IO;
 using BraketsEditor.Editor;
 using BraketsEngine;
+using ImageMagick;
 using ImGuiNET;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BraketsEditor;
 
@@ -32,6 +34,8 @@ public class ObjectCreator
 
     private static void OnFileRenamed(object sender, RenamedEventArgs e)
     {
+        Debug.Log("Detected file rename: ", e.Name);
+
         if (isInsideJob)
         {
             isInsideJob = false;
@@ -44,6 +48,8 @@ public class ObjectCreator
                 isInsideJob = true;
                 File.Move(e.FullPath, e.OldFullPath);
                 File.Delete(e.FullPath);
+
+                ObjectsPanel.Refresh();
             }
             else if (result == 2) ObjectsPanel.Refresh();  
         }).Show();
@@ -61,7 +67,7 @@ public class ObjectCreator
         template = template
             .Replace("&NAMESPACE&", Globals.projectName)
             .Replace("&NAME&", name)
-            .Replace("&TAG&", tag) // TODO: Fix the TAG, POS, TEXTURE_NAME, and LAYER props to be set when creating with ui
+            .Replace("&TAG&", tag)
             .Replace("&POSX&", "0")
             .Replace("&POSY&", "0")
             .Replace("&TEXTURE_NAME&", texture)
@@ -72,6 +78,28 @@ public class ObjectCreator
 
         // create the file with the template
         CreateFile("sprites", name, template);
+
+        ImGui.CloseCurrentPopup();
+    }
+
+    public static async void CreateParticleEmitter(string name, int layer, string particleDataName, bool smu, bool dol)
+    {
+        name = name.Replace(".cs", "");
+        string template = await File.ReadAllTextAsync($"{Globals.CurrentDir}/content/templates/code/ParticleEmitterTemplate.txt");
+
+        // process it
+        template = template
+            .Replace("&NAMESPACE&", Globals.projectName)
+            .Replace("&NAME&", name)
+            .Replace("&POSX&", "0")
+            .Replace("&POSY&", "0")
+            .Replace("&PARTICLE_DATA&", particleDataName)
+            .Replace("&LAYER&", layer.ToString())
+            .Replace("&SMU&", !smu ? $"this.smartUpdate = false;" : "")
+            .Replace("&DOL&", dol ? $"this.drawOnLoading = true;" : "");
+
+        // create the file with the template
+        CreateFile("particles", name, template);
 
         ImGui.CloseCurrentPopup();
     }

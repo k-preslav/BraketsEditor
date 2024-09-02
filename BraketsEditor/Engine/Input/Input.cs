@@ -33,10 +33,22 @@ public class Input
         return currentKeyState.IsKeyDown(key) && !previousKeyState.IsKeyDown(key);
     }
 
-    public static Vector2 GetMousePosition()
+    public static Vector2 GetMousePositionScreen()
     {
         Point p = currentMouseState.Position;
         return new Vector2(p.X, p.Y);
+    }
+    public static Vector2 GetMousePositionWorld()
+    {
+        MouseState mouseState = Mouse.GetState();
+        Point screenPosition = mouseState.Position;
+        
+        Vector2 mousePositionWorld = new Vector2(
+            (screenPosition.X - (Globals.APP_Width / 2)) / Globals.Camera.Zoom + Globals.Camera.TargetPosition.X,
+            (screenPosition.Y - (Globals.APP_Height / 2)) / Globals.Camera.Zoom + Globals.Camera.TargetPosition.Y
+        );
+
+        return mousePositionWorld;
     }
     public static bool IsMouseDown(int index)
     {

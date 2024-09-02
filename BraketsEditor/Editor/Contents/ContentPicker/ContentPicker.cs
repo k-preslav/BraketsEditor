@@ -23,6 +23,15 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
         static string selectedFileName = "";
         static string selectedFilePath = "";
 
+        public static void Create()
+        {
+            PluginAbstraction.MakeWindow("Content Picker", (window) =>
+            {
+                ContentPicker.Draw(window);
+            }, () => { }, _flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize, _closable: true, 
+            _visible: false, _widht: 580, _height: 400, _overrideSize: true);
+        }
+
         public static void Show(ContentType type, Action<string> onPicked)
         {
             cType = type;
@@ -30,7 +39,7 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
 
             OnPicked = onPicked;
 
-            Globals.DEBUG_UI.GetWindow("Content Picker").Visible = true;
+             Globals.DEBUG_UI.GetWindow("Content Picker").Visible = true;
 
             OnSelected = (filePath, name) =>
             {
@@ -41,14 +50,17 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
 
         public static void Draw(DebugWindow parent)
         {
+            bool hasScrollbar = pickerButtons.Count * 72 > parent.Size.Y;
+
+            ImGui.BeginChild("content", new Vector2(ImGui.GetWindowSize().X - 15, ImGui.GetWindowSize().Y - 100), ImGuiChildFlags.Border);
             for (int i = 0; i < pickerButtons.Count; i++)
             {
-                int maxGridFolderCount = (int)parent.Size.X / (pickerButtons[i].SizeX + 15);
+                int maxGridFolderCount = (int)parent.Size.X / (pickerButtons[i].SizeX + 25);
                 
                 ImGui.PushID($"content{i}");
                 ImGui.BeginGroup();
-                if (pickerButtons[i].Name == selectedFileName) WindowTheme.PushAccent(strong:false);
-                pickerButtons[i].DrawGrid(parent);
+                if (pickerButtons[i].Name == selectedFileName) WindowTheme.PushAccent();
+                pickerButtons[i].DrawGrid(parent, hasScrollbar);
                 WindowTheme.PopAccent();
                 ImGui.EndGroup();
                 ImGui.PopID();
@@ -61,6 +73,7 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
                 }
                 else ImGui.NewLine();
             }
+            ImGui.EndChild();
 
             ImGui.SetCursorPos(new Vector2(
                 ImGui.GetWindowSize().X - 110,
@@ -130,6 +143,12 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
                     filePath = Path.GetRelativePath(Path.Combine(Globals.projectContentFolderPath, relativeTo), fullPath).Replace(".level", "");
                     pickerButtons.Add(new ContentPickerButton(name, fullPath, () => { OnSelected?.Invoke(filePath, name); }));
                 }
+                else if (cType == ContentType.Particles && ext == ".particles")
+                {
+                    relativeTo = "particles/";
+                    filePath = Path.GetRelativePath(Path.Combine(Globals.projectContentFolderPath, relativeTo), fullPath).Replace(".particles", "");
+                    pickerButtons.Add(new ContentPickerButton(name, fullPath, () => { OnSelected?.Invoke(filePath, name); }));
+                }
             }
         }
     }
@@ -144,6 +163,8 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
         
         Font,
         
-        Level
+        Level,
+
+        Particles
     }
 }

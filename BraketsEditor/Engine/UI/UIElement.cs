@@ -44,7 +44,7 @@ public abstract class UIElement : Sprite
 
     public UIElement(string text = "UI Element", UIAllign allign = UIAllign.TopLeft, 
                     int marginX = 0, int marginY = 0, int padX = 0, int padY = 0,
-                    string fontName = "NeorisMedium", int fontSize = 24, string textureName = "ui_default")
+                    string fontName = "NeorisMedium", int fontSize = 24, string textureName = "ui/ui_default")
             : base("ui_element", new Vector2(0), textureName, 1, false)
     {
         this.Text = text;
@@ -122,7 +122,7 @@ public abstract class UIElement : Sprite
         if (this.Clickable)
         {
             if (this.Rect.Intersects(
-                new Rectangle(Input.GetMousePosition().ToPoint(), new Point(1, 1))
+                new Rectangle(Input.GetMousePositionScreen().ToPoint(), new Point(1, 1))
             ))
             {
                 if (Input.IsMouseClicked(0))

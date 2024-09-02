@@ -1,17 +1,17 @@
 All icons are downloaded from https://www.flaticon.com using the free tier
 
-folder.png - NajmunNahar
-unknown.png, font-file.png, level-file.png, audio-file.png - pancaza
-arrow-right.png - Pixel Perfect
-search.png - Smashicons
-runDebug.png, run.png - Freepik
+Credits:
 
-partial:
-sprite_icon - Freepik
-
+NajmunNahar
+pancaza
+Pixel Perfect
+Smashicons
+Freepik
+Arkinasi
+Anggara
 
 ---------------
 
-If I have missed to point out someone's amazing work, I am thrully sorry!
+If I have missed to point out someone's amazing work, I am truly sorry!
 
 k_preslav

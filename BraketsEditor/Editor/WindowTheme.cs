@@ -67,14 +67,14 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.MenuBarBg] = new Vector4(0.1459227204322815f, 0.1459212601184845f, 0.1459212601184845f, 1.0f);
         style.Colors[(int)ImGuiCol.ScrollbarBg] = new Vector4(0.2145922780036926f, 0.2145901322364807f, 0.2145901322364807f, 1.0f);
         style.Colors[(int)ImGuiCol.ScrollbarGrab] = new Vector4(0.3819742202758789f, 0.3819704055786133f, 0.3819704055786133f, 1.0f);
-        style.Colors[(int)ImGuiCol.ScrollbarGrabHovered] = new Vector4(0.0f, 0.0f, 0.0f, 0.2000000029802322f);
-        style.Colors[(int)ImGuiCol.ScrollbarGrabActive] = new Vector4(0.0f, 0.0f, 0.0f, 0.5f);
+        style.Colors[(int)ImGuiCol.ScrollbarGrabHovered] = new Vector4(0.5f, 0.5f, 0.5f, 1f);
+        style.Colors[(int)ImGuiCol.ScrollbarGrabActive] = new Vector4(0.5f, 0.5f, 0.5f, 1f);
         style.Colors[(int)ImGuiCol.CheckMark] = new Vector4(0.2186814844608307f, 0.7229830026626587f, 0.9098712205886841f, 0.9184549450874329f);
         style.Colors[(int)ImGuiCol.SliderGrab] = new Vector4(0.686274528503418f, 0.686274528503418f, 0.686274528503418f, 1.0f);
         style.Colors[(int)ImGuiCol.SliderGrabActive] = new Vector4(0.0f, 0.0f, 0.0f, 0.5f);
         style.Colors[(int)ImGuiCol.Button] = new Vector4(0.1502146124839783f, 0.1502131074666977f, 0.1502131074666977f, 1.0f);
-        style.Colors[(int)ImGuiCol.ButtonHovered] = new Vector4(0.2145922780036926f, 0.6513508558273315f, 1.0f, 0.2000000029802322f);
-        style.Colors[(int)ImGuiCol.ButtonActive] = new Vector4(0.2344858348369598f, 0.5575844645500183f, 0.8154506683349609f, 0.6995707750320435f);
+        style.Colors[(int)ImGuiCol.ButtonHovered] = new Vector4(0.155501127243042f, 0.3888762891292572f, 0.5751073360443115f, 1.0f);
+        style.Colors[(int)ImGuiCol.ButtonActive] = new Vector4(0.1214979067444801f, 0.2854548096656799f, 0.4163089990615845f, 1.0f);
         style.Colors[(int)ImGuiCol.Header] = new Vector4(0.1759656667709351f, 0.1759639084339142f, 0.1759639084339142f, 1.0f);
         style.Colors[(int)ImGuiCol.HeaderHovered] = new Vector4(0.0f, 0.4666666686534882f, 0.8392156958580017f, 0.2000000029802322f);
         style.Colors[(int)ImGuiCol.HeaderActive] = new Vector4(0.1502882689237595f, 0.5891833305358887f, 0.8540772199630737f, 0.5193133354187012f);
@@ -103,7 +103,7 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.NavWindowingDimBg] = new Vector4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.2000000029802322f);
         style.Colors[(int)ImGuiCol.ModalWindowDimBg] = new Vector4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.3499999940395355f);
 
-        Globals.Camera.BackgroundColor = new Microsoft.Xna.Framework.Color(style.Colors[(int)ImGuiCol.WindowBg]);
+        Globals.Camera.BackgroundColor = new Microsoft.Xna.Framework.Color(style.Colors[(int)ImGuiCol.Border]);
     }
 
     public static void Light()
@@ -165,8 +165,8 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.SliderGrab] = new Vector4(0.686274528503418f, 0.686274528503418f, 0.686274528503418f, 1.0f);
         style.Colors[(int)ImGuiCol.SliderGrabActive] = new Vector4(0.0f, 0.0f, 0.0f, 0.5f);
         style.Colors[(int)ImGuiCol.Button] = new Vector4(0.8588235378265381f, 0.8588235378265381f, 0.8588235378265381f, 1.0f);
-        style.Colors[(int)ImGuiCol.ButtonHovered] = new Vector4(0.2145922780036926f, 0.6513508558273315f, 1.0f, 0.2000000029802322f);
-        style.Colors[(int)ImGuiCol.ButtonActive] = new Vector4(0.2344858348369598f, 0.5575844645500183f, 0.8154506683349609f, 0.4334763884544373f);
+        style.Colors[(int)ImGuiCol.ButtonHovered] = new Vector4(0.66f, 0.8f, 0.91f, 1f);
+        style.Colors[(int)ImGuiCol.ButtonActive] = new Vector4(0.8f, 0.89f, 0.97f, 1f);
         style.Colors[(int)ImGuiCol.Header] = new Vector4(0.8588235378265381f, 0.8588235378265381f, 0.8588235378265381f, 1.0f);
         style.Colors[(int)ImGuiCol.HeaderHovered] = new Vector4(0.0f, 0.4666666686534882f, 0.8392156958580017f, 0.2000000029802322f);
         style.Colors[(int)ImGuiCol.HeaderActive] = new Vector4(0.2344858348369598f, 0.5575844645500183f, 0.8154506683349609f, 0.4334763884544373f);
@@ -177,8 +177,8 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.ResizeGripHovered] = new Vector4(0.2588235437870026f, 0.5882353186607361f, 0.9764705896377563f, 0.6700000166893005f);
         style.Colors[(int)ImGuiCol.ResizeGripActive] = new Vector4(0.2588235437870026f, 0.5882353186607361f, 0.9764705896377563f, 0.949999988079071f);
         style.Colors[(int)ImGuiCol.Tab] = new Vector4(0.7682326436042786f, 0.7682364583015442f, 0.7682403326034546f, 0.8619999885559082f);
-        style.Colors[(int)ImGuiCol.TabHovered] = new Vector4(0.2588235437870026f, 0.5882353186607361f, 0.9764705896377563f, 0.800000011920929f);
-        style.Colors[(int)ImGuiCol.TabSelected] = new Vector4(0.65f, 0.75f, 1, 1.0f);
+        style.Colors[(int)ImGuiCol.TabHovered] = new Vector4(0.6f, 0.76f, 0.86f, 1f);
+        style.Colors[(int)ImGuiCol.TabSelected] = new Vector4(0.66f, 0.8f, 0.91f, 1f);
         style.Colors[(int)ImGuiCol.PlotLines] = new Vector4(0.6078431606292725f, 0.6078431606292725f, 0.6078431606292725f, 1.0f);
         style.Colors[(int)ImGuiCol.PlotLinesHovered] = new Vector4(1.0f, 0.4274509847164154f, 0.3490196168422699f, 1.0f);
         style.Colors[(int)ImGuiCol.PlotHistogram] = new Vector4(0.8980392217636108f, 0.6980392336845398f, 0.0f, 1.0f);
@@ -195,13 +195,13 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.NavWindowingDimBg] = new Vector4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.2000000029802322f);
         style.Colors[(int)ImGuiCol.ModalWindowDimBg] = new Vector4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.3499999940395355f);
         
-        Globals.Camera.BackgroundColor = new Microsoft.Xna.Framework.Color(style.Colors[(int)ImGuiCol.WindowBg]);
+        Globals.Camera.BackgroundColor = new Microsoft.Xna.Framework.Color(style.Colors[(int)ImGuiCol.Border]);
     }
 
-    public static void PushAccent(bool strong=true)
+    public static void PushAccent()
     {
-        Vector4 color = ImGui.GetStyle().Colors[strong ? (int)ImGuiCol.ButtonActive : (int)ImGuiCol.ButtonHovered];
-        ImGui.PushStyleColor(ImGuiCol.Button, color * 0.8f);
+        Vector4 color = ImGui.GetStyle().Colors[currentTheme == "dark" ? (int)ImGuiCol.ButtonHovered : (int)ImGuiCol.ButtonActive];
+        ImGui.PushStyleColor(ImGuiCol.Button, color * (currentTheme == "dark" ? 0.8f : 1f));
     }
     public static void PopAccent() => ImGui.PopStyleColor();
 }

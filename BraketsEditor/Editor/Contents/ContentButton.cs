@@ -47,7 +47,10 @@ public class ContentButton
             {
                 if (extension == string.Empty)
                 {
-                    ContentPanel.Refresh($"/{this.FilePath.Replace(Path.GetPathRoot(this.FilePath), "")}");
+                    string path = $"/{this.FilePath.Replace(Path.GetPathRoot(this.FilePath), "")}";
+                    ContentPanel.lastPath = path;
+
+                    ContentPanel.Refresh(path);
                 }
             }
         }
@@ -89,6 +92,9 @@ public class ContentButton
                 break;
             case ".level":
                 imagePath = "ui/contentExplorer/level-file";
+                break;
+            case ".particles":
+                imagePath = "ui/contentExplorer/particles-file";
                 break;
             default:
                 imagePath = "ui/contentExplorer/unknown";

@@ -17,6 +17,8 @@ namespace BraketsEngine;
 
 public class Main : Game
 {
+    public RenderTarget2D RenderTarget { get; private set; }
+
     public List<Sprite> Sprites;
     public List<UIElement> UI;
 
@@ -71,12 +73,17 @@ public class Main : Game
         this.Sprites = new List<Sprite>();
         this.UI = new List<UIElement>();
 
-        _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.25);
-        _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.25);
+        _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.1);
+        _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.1);
         _graphics.ApplyChanges();
         OnResize(Window, EventArgs.Empty);
 
         base.Initialize();
+    }
+    internal void CreateRenderTarget(int widht, int height)
+    {
+        RenderTarget?.Dispose();
+        RenderTarget = new RenderTarget2D(GraphicsDevice, widht, height, false, SurfaceFormat.Color, DepthFormat.None);
     }
 
     protected override void LoadContent()
@@ -105,6 +112,7 @@ public class Main : Game
             elem.Update(dt);
             elem.UpdateRect();
         }
+        MainToolsWindow.Update();
 
         if (Globals.STATUS_Loading || LoadingScreen.isLoading)
             return;
@@ -112,6 +120,9 @@ public class Main : Game
         _gameManager.Update(dt);
         foreach (var sp in Sprites.ToList())
         {
+            if (sp is null)
+                return;
+
             sp.Update(dt);
             sp.UpdateRect();
         }
@@ -120,22 +131,29 @@ public class Main : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Globals.Camera.BackgroundColor); 
+        GraphicsDevice.SetRenderTarget(RenderTarget);
+        GraphicsDevice.Clear(Color.Black);
         
         // ------- Game Layer -------
-        _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, transformMatrix: Globals.Camera.TranslationMatrix);
+        _spriteBatch.Begin(transformMatrix: Globals.Camera.TranslationMatrix);
         
         if (!Globals.STATUS_Loading && !LoadingScreen.isLoading)
         {
-            var sortedSprites = Sprites.OrderBy(sp => sp.Layer).ToList();
+            var sortedSprites = Sprites
+                .Where(sp => sp != null)
+                .OrderBy(sp => sp.Layer)
+                .ToList();
+
             foreach (var sp in sortedSprites)
-            {
+            { 
                 sp.Draw();
             }
         }
         _spriteBatch.End();
+        GraphicsDevice.SetRenderTarget(null);
 
         // ------- UI Layer ------- 
+        GraphicsDevice.Clear(Globals.Camera.BackgroundColor); 
         _spriteBatch.Begin();
         foreach (var elem in UI.ToList())
         {
@@ -199,6 +217,8 @@ public class Main : Game
     {
         Globals.APP_Width = Window.ClientBounds.Width;
         Globals.APP_Height = Window.ClientBounds.Height;
+
+        _gameManager.OnResize();
     }
     private void OnExit(object sender, EventArgs e)
     {

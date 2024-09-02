@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace BraketsEngine;
 
@@ -36,7 +38,7 @@ public static class ParticleManager
 
     public static void UnloadAll()
     {
-        foreach (var particleEmitter in _particleEmitters)
+        foreach (var particleEmitter in _particleEmitters.ToList())
         {
             particleEmitter.Unload();
         }

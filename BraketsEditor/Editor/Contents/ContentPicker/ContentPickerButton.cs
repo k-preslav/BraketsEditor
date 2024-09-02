@@ -26,11 +26,14 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
             FilePath = path;
             Clicked = clicked;
 
-            SizeX = 86;
+            SizeX = 84;
         }
 
-        public void DrawGrid(DebugWindow parent)
+        public void DrawGrid(DebugWindow parent, bool hasScrollbar)
         {
+            if (hasScrollbar) SizeX = 82;
+            else SizeX = 84;
+
             string extension = Path.GetExtension(this.FilePath);
 
             if (ImGui.ImageButton("", ResourceManager.GetImGuiTexture(GetThumbnailPath(extension)), new Vector2(SizeX)))
@@ -74,6 +77,9 @@ namespace BraketsEditor.Editor.Contents.ContentPicker
                     break;
                 case ".level":
                     imagePath = "ui/contentExplorer/level-file";
+                    break;
+                case ".particles":
+                    imagePath = "ui/contentExplorer/particles-file";
                     break;
                 default:
                     imagePath = "ui/contentExplorer/unknown";

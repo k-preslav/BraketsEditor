@@ -23,14 +23,27 @@ public class ContentPanel
 
     static int parentWidth = 300;
 
+    public static void Create()
+    {
+        PluginAbstraction.MakeWindow("Content", (window) =>
+        {
+            ContentPanel.Draw(window);
+        }, () => { }, _flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoBringToFrontOnFocus,
+                      _overrideSize:true, _overridePos:true);
+        ContentPanel.Refresh("/");
+    }
+
     public static void Draw(DebugWindow parent)
     {
         parent.Pos = new Vector2(0, Globals.APP_Height / 2);
         parent.Size = new Vector2(parentWidth, Globals.APP_Height / 2);
 
+        bool hasScrollbar = content.Count * (listLayout ? 36 : 70) > parent.Size.Y;
+
         ImGui.SeparatorText("Content");
 
-        if (ImGui.SmallButton("<"))
+        string backTexture = WindowTheme.currentTheme == "dark" ? "ui/contentExplorer/back-white" : "ui/contentExplorer/back-black";
+        if (ImGui.ImageButton("###back-content_button", ResourceManager.GetImGuiTexture(backTexture), new Vector2(16)))
         {
             string parentPath = Path.GetFullPath(Path.GetDirectoryName(currentPathFull)).TrimEnd(Path.DirectorySeparatorChar);
             string projectPath = Path.GetFullPath(Globals.projectPath).TrimEnd(Path.DirectorySeparatorChar);
@@ -44,11 +57,20 @@ public class ContentPanel
 
 
         ImGui.SameLine(); ImGui.Spacing(); ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 4);
         ImGui.Text($"{currentPath}");
 
         ImGui.SameLine();
-        ImGui.SetCursorPosX(parent.Size.X - 32);
-        if (ImGui.SmallButton("L"))
+        ImGui.SetCursorPosX(parentWidth - (hasScrollbar ? 50 : 42));
+        string refreshTexture = WindowTheme.currentTheme == "dark" ? "ui/refresh/refresh-white" : "ui/refresh/refresh-black";
+        if (ImGui.ImageButton("###refresh-obj_button", ResourceManager.GetImGuiTexture(refreshTexture), new Vector2(16))) Refresh("last");
+
+        ImGui.SameLine();
+        ImGui.SetCursorPosX(parentWidth - (hasScrollbar ? 86 : 78));        
+        string listGridTexture = listLayout ?
+            (WindowTheme.currentTheme == "dark" ? "ui/contentExplorer/list-white" : "ui/contentExplorer/list-black") :
+            (WindowTheme.currentTheme == "dark" ? "ui/contentExplorer/grid-white" : "ui/contentExplorer/grid-black");
+        if (ImGui.ImageButton("###layout-content_button", ResourceManager.GetImGuiTexture(listGridTexture), new Vector2(16)))
         {
             listLayout = !listLayout;
         }
@@ -63,7 +85,7 @@ public class ContentPanel
             {
                 ImGui.PushID($"content{i}");
                 ImGui.BeginGroup();
-                ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 5);
+                ImGui.SetCursorPosX(ImGui.GetCursorPosX() + (hasScrollbar ? 0 : 5));
                 content[i].DrawGrid(parent);
                 ImGui.EndGroup();
                 ImGui.PopID();
@@ -81,6 +103,8 @@ public class ContentPanel
 
     public static void Refresh(string path = "/")
     {
+        ResourceManager.Refresh();
+
         maxGridFolderCount = parentWidth / 96;
 
         if (path == "/")
@@ -91,7 +115,7 @@ public class ContentPanel
         currentPathFull = Path.GetFullPath(path);
         
         int cntPIndex = path.IndexOf("content");
-        currentPath = Path.Combine("\\", path.Substring(cntPIndex).Replace("content", "").TrimStart('\\'));
+        currentPath = Path.Combine("\\", path.Substring(cntPIndex).Replace("content", "").TrimStart('\\')).Replace(@"/", @"\");
 
         content.Clear();
 

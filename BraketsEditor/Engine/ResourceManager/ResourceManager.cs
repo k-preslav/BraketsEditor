@@ -191,6 +191,14 @@ public static class ResourceManager
         // TODO: Implement other content types
     }
 
+    public static void Refresh()
+    {
+        _levels.Clear();
+        _sounds.Clear();
+        _textures.Clear();
+        _fonts.Clear();
+    }
+
     public static void LoadTextureFromFullPath(string path)
     {
         string _name = Path.GetFileNameWithoutExtension(path).Trim();

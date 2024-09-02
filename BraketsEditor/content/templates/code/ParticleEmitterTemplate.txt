@@ -1,0 +1,14 @@
+using Microsoft.Xna.Framework;
+using BraketsEngine;
+
+namespace &NAMESPACE&;
+
+public class &NAME& : ParticleEmitter
+{
+    public &NAME&()
+    : base("&NAME&", new Vector2(&POSX&, &POSY&), new ParticleEmitterData().FromFile(@"&PARTICLE_DATA&"), &LAYER&)
+    {
+		&SMU&
+		&DOL&
+    }
+}

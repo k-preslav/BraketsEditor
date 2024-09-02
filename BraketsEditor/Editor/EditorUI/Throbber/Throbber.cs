@@ -13,14 +13,14 @@ internal class Throbber
 {
     public static bool visible = false;
 
-    public static void Draw(float x, float y, int _size=30)
+    public static void Draw(float x, float y, int _size=28)
     {
         if (!visible)
             return;
 
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
 
-        IntPtr texture = ResourceManager.GetImGuiTexture(WindowTheme.currentTheme == "dark" ? "ui/throbber-white" : "ui/throbber-black");
+        IntPtr texture = ResourceManager.GetImGuiTexture(WindowTheme.currentTheme == "dark" ? "ui/throbber/throbber-white" : "ui/throbber/throbber-black");
         Vector2 size = new Vector2(_size);
         Vector2 center = new Vector2(x, y);
 

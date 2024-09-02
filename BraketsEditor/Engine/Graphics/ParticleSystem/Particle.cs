@@ -5,7 +5,7 @@ namespace BraketsEngine;
 
 public struct ParticleData
 {
-    public string textureName = "particle_default";
+    public string textureName = "builtin/particle_default";
     public float lifeSpan = 2f;
 
     public Color colorStart = Color.Yellow;
@@ -31,6 +31,8 @@ public class Particle : Sprite
     private float _lifeSpanLeft;
     private float _lifeSpanAmmount;
     private Vector2 _direction;
+
+    internal ParticleEmitter parentEmitter;
 
     public Particle(Vector2 pos, ParticleData particleData, int layer) : base("particle", pos, "none", layer, false)
     {
@@ -62,6 +64,7 @@ public class Particle : Sprite
         if (_lifeSpanLeft <= 0f)
         {
             IsFinished = true;
+
             this.DestroySelf();     
             return;
         }

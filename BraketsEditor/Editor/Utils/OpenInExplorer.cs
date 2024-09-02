@@ -22,6 +22,8 @@ public class OpenInExplorer
 
     static void Open(string path)
     {
+        path = Path.GetFullPath(path);
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             Process.Start("explorer.exe", path);

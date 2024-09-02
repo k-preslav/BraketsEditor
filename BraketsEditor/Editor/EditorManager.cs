@@ -6,78 +6,55 @@ using Microsoft.Xna.Framework.Input;
 using BraketsEditor.Editor;
 using BraketsEditor.Editor.Contents.AddContentWindow;
 using BraketsEditor.Editor.Contents.ContentPicker;
+using NAudio.CoreAudioApi;
+using System.Threading.Tasks;
+using BraketsEditor.Editor.PluginsManager;
 
 public class EditorManager
 {
     public BridgeServer bridgeServer;
-    public string Status;
+    public string Status = "{status}";
 
-    public void Start()
+    public async void Start()
     {
+        var loadingBox = new LoadingBox("We are loading!!!");
+        loadingBox.Show();
+
         Globals.EditorManager = this;
         Globals.DEBUG_Overlay = false;
 
         Globals.Camera.BackgroundColor = new Color(25, 25, 25);
 
+        Status = "Loading Editor...";
+        Throbber.visible = true;
+
         WindowTheme.Dark();
-        Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.DrawAsync);
+        Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.Draw);
 
-        DebugWindow objectsPanel = new DebugWindow("Objects", overridePos: true, overrideSize: true,
-            flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar
-        );
-        objectsPanel.OnDraw += (DebugWindow parent) => {ObjectsPanel.Draw(parent);};
-        ObjectsPanel.Refresh();
+        ObjectsPanel.Create();
+        ContentPanel.Create();
+        NewObjectWindow.Create();
+        AddContentWindow.Create();
+        ContentPicker.Create();
+        MainToolsWindow.Create();
+        GamePropertiesWindow.Create();
 
-        DebugWindow contentPanel = new DebugWindow("Content", overridePos: true, overrideSize: true,
-            flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar
-        );
-        contentPanel.OnDraw += (DebugWindow parent) => { ContentPanel.Draw(parent); };
-        ContentPanel.Refresh("/");
+        PluginAbstraction.ShowToolView("Diagnostics", DiagnosticsView.Draw, DiagnosticsView.Update);
+        await Task.Delay(100);
 
-        DebugWindow newObjWindow = new DebugWindow("Add new Object", overridePos: false, overrideSize: true, width:475, height:675,
-            closable:true, topmost: true, visible:false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize
-        );
-        newObjWindow.OnDraw += (DebugWindow parent) => {NewObjectWindow.Draw(parent);};
-
-        DebugWindow newContentWindow = new DebugWindow("Add new Content", overridePos: false, overrideSize: true, width:550, height:225,
-            closable: true, topmost: true, visible: false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse
-        );
-        newContentWindow.OnDraw += (DebugWindow parent) => { AddContentWindow.Draw(parent); };
-
-        DebugWindow contentPicker = new DebugWindow("Content Picker", overridePos: false, overrideSize: true, width: 580, height: 400,
-            closable: true, topmost: true, visible: false, flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize
-        );
-        contentPicker.OnDraw += (DebugWindow parent) => { ContentPicker.Draw(parent); };
-
-        DebugWindow toolsWindow = new DebugWindow("Tools", overridePos: true, overrideSize: true,
-            flags:ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar);
-        toolsWindow.OnDraw += MainToolsWindow.Draw;
-        
-        MainToolsWindow.AddTab(new ToolTab{
-            name = "Diagnostics",
-            view = DiagnosticsView.Draw
-        });
-
-        DebugWindow gamePropWin = new DebugWindow("Game Properties", overridePos: true, overrideSize: true,
-            closable:true, topmost: true, visible:false, flags: ImGuiWindowFlags.NoCollapse
-        );
-        gamePropWin.OnDraw += (DebugWindow parent) => {GamePropertiesWindow.Draw(parent);};
-
-        ObjectCreator.SetupFileWatcher();
-
-        Globals.DEBUG_UI.AddWindow(objectsPanel);
-        Globals.DEBUG_UI.AddWindow(contentPanel);
-        Globals.DEBUG_UI.AddWindow(toolsWindow);
-        Globals.DEBUG_UI.AddWindow(newObjWindow);
-        Globals.DEBUG_UI.AddWindow(newContentWindow);
-        Globals.DEBUG_UI.AddWindow(contentPicker);
-        Globals.DEBUG_UI.AddWindow(gamePropWin);
+        loadingBox.SetValue(35);
 
         bridgeServer = new BridgeServer(8000);
         bridgeServer.OnRecieve += OnBridgeDataRecive;
         bridgeServer.Start();
+        loadingBox.SetValue(50);
+
+        //PluginLoader.LoadPlugins();
+        ObjectCreator.SetupFileWatcher();
 
         Status = "Ready";
+        Throbber.visible = false;
+        loadingBox.SetValue(100);
     }
 
     private void OnBridgeDataRecive(string recieveData)
@@ -101,10 +78,25 @@ public class EditorManager
             ObjectsPanel.Refresh();
             ContentPanel.Refresh("last");
         }
+
+        if (ImGui.Shortcut(ImGuiKey.ModCtrl | ImGuiKey.F5, ImGuiInputFlags.RouteGlobal))
+        {
+            BuildManager.OnRunBtnClick(false);
+        }
+        else if (ImGui.Shortcut(ImGuiKey.F5, ImGuiInputFlags.RouteGlobal))
+        {
+            BuildManager.OnRunBtnClick(true);
+        }
     }
 
-    internal void Stop()
+    internal void OnResize()
     {
-                
+        ParticleEditor.OnAppResize();
+    }
+
+    internal async void Stop()
+    {
+        DiagnosticsView.ResetFull();
+        await ParticleEditor.Unload();
     }
 }

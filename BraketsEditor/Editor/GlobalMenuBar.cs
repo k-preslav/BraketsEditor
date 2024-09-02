@@ -10,9 +10,7 @@ namespace BraketsEditor;
 
 public class GlobalMenuBar
 {
-    static Thread buildAndRun;
-
-    public static async void DrawAsync()
+    public static void Draw()
     {
         if (ImGui.BeginMainMenuBar())
         {
@@ -72,9 +70,9 @@ public class GlobalMenuBar
                     if (ImGui.MenuItem("Visual Studio")) WindowTheme.Dark();
                     if (ImGui.MenuItem("Light")) WindowTheme.Light();
 
-                    if (ImGui.Checkbox("Rounded", ref WindowTheme.rounded)) 
+                    if (ImGui.Checkbox("Rounded", ref WindowTheme.rounded))
                         WindowTheme.Refresh();
-                    
+
                     ImGui.EndMenu();
                 }
                 ImGui.EndMenu();
@@ -83,44 +81,64 @@ public class GlobalMenuBar
             {
                 if (ImGui.MenuItem("Diagnostics"))
                 {
-                    MainToolsWindow.AddTab(new ToolTab{
+                    MainToolsWindow.AddTab(new ToolTab
+                    {
                         name = "Diagnostics",
-                        view = DiagnosticsView.Draw
+                        view = DiagnosticsView.Draw,
+                        update = DiagnosticsView.Update
                     });
                 }
                 if (ImGui.MenuItem("Level Editor"))
                 {
-                    MainToolsWindow.AddTab(new ToolTab{
+                    MainToolsWindow.AddTab(new ToolTab
+                    {
                         name = "Level Editor",
                         view = DiagnosticsView.Draw
                     });
                 }
                 if (ImGui.MenuItem("Tilemap Editor"))
                 {
-                    MainToolsWindow.AddTab(new ToolTab{
+                    MainToolsWindow.AddTab(new ToolTab
+                    {
                         name = "Tilemap Editor",
                         view = DiagnosticsView.Draw
                     });
                 }
                 if (ImGui.MenuItem("Particle Editor"))
                 {
-                    MainToolsWindow.AddTab(new ToolTab{
+                    MainToolsWindow.AddTab(new ToolTab
+                    {
                         name = "Particle Editor",
-                        view = DiagnosticsView.Draw
+                        view = ParticleEditor.Draw,
+                        update = ParticleEditor.Update
                     });
+                    ParticleEditor.Init(type: "new");
                 }
                 ImGui.EndMenu();
             }
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5, 0).ToNumerics());
             ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0).ToNumerics());
+
+            ImGui.SetCursorPosX(275);
+            ImGui.Text("|"); ImGui.Text(Globals.projectName);
+
             ImGui.SetCursorPosX((ImGui.GetWindowSize().X - 300) / 2);
 
             if (!BuildManager.isDoneRunning) ImGui.BeginDisabled();
             if (ImGui.ImageButton("###runButton", ResourceManager.GetImGuiTexture("ui/run/run"), new Vector2(18).ToNumerics()))
             {
-                Debug.Log("Running application...");
-                BuildManager.Run();
+                if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
+                {
+                    BuildManager.OnRunBtnClick(false);
+                }
+                else
+                {
+                    Throbber.visible = false;
+                    BuildManager.runButtonText = "Run";
+
+                    BuildManager.Run(); // If it is performed while running, it will stop current run
+                }
             }
             if (!BuildManager.isDoneRunning) ImGui.EndDisabled();
 
@@ -128,27 +146,16 @@ public class GlobalMenuBar
             {
                 if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
                 {
-                    buildAndRun = new Thread(async () =>
-                    {
-                        Throbber.visible = true;
-
-                        Debug.Log("Building application...");
-                        await BuildManager.Build();
-                        Debug.Log("Running application in DebugMode...");
-
-                        BuildManager.RunDebug();
-                    });
-                    buildAndRun.Start();
-                    buildAndRun.Join();
+                    BuildManager.OnRunBtnClick(true);
                 }
                 else
                 {
                     Throbber.visible = false;
                     BuildManager.runButtonText = "Run";
-                    BuildManager.RunDebug();
-                    buildAndRun.Join();
+                    BuildManager.RunDebug(); // If it is performed while running, it will stop current run
                 }
             }
+            BuildManager.runningTimer += Globals.DEBUG_DT;
             ImGui.PopStyleVar(2);
 
             if (Globals.IS_DEV_BUILD)
@@ -160,10 +167,10 @@ public class GlobalMenuBar
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5, 0).ToNumerics());
             ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0).ToNumerics());
             ImGui.SetCursorPosX(ImGui.GetWindowSize().X - ImGui.CalcTextSize(Globals.EditorManager.Status).X - 10);
-            Throbber.Draw(ImGui.GetWindowSize().X - ImGui.CalcTextSize(Globals.EditorManager.Status).X - 35, 17);
+            Throbber.Draw(ImGui.GetWindowSize().X - ImGui.CalcTextSize(Globals.EditorManager.Status).X - 35, 18);
             ImGui.Text(Globals.EditorManager.Status);
             ImGui.PopStyleVar(2);
-            
+
             Globals.DEBUG_UI_MENUBAR_SIZE_X = (int)ImGui.GetWindowSize().X;
             Globals.DEBUG_UI_MENUBAR_SIZE_Y = (int)ImGui.GetWindowSize().Y;
             ImGui.EndMainMenuBar();

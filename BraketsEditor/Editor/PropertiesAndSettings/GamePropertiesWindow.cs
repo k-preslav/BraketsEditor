@@ -2,6 +2,7 @@
 using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 
@@ -15,6 +16,14 @@ public class GamePropertiesWindow
                 height = "";
     static bool resize = true,
                 vsync = true;
+
+    public static void Create()
+    {
+        PluginAbstraction.MakeWindow("Game Properties", (window) =>
+        {
+            GamePropertiesWindow.Draw(window);
+        }, () => { }, _flags: ImGuiWindowFlags.NoCollapse, _closable: true, _visible: false, _widht: 465, _height: 635, _overrideSize:true);
+    }
 
     public static void Draw(DebugWindow parent)
     {

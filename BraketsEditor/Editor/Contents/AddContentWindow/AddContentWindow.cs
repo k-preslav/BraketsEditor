@@ -29,22 +29,35 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
         static bool saveInUI = false;
         static bool none = false;
 
+        public static void Create()
+        {
+            PluginAbstraction.MakeWindow("Add new Content", (window) =>
+            {
+                AddContentWindow.Draw(window);
+            }, () => { }, _flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse, 
+                          _closable: true, _visible: false, _widht: 575, _height: 250, _overrideSize:true);
+        }
+
         public static void Draw(DebugWindow parent)
         {
-            Globals.DEBUG_UI.GetWindow("Content Picker").TopMost = false;
             ImGui.SeparatorText("Files");
 
             float listBoxWidth = parent.Size.X / 2.35f;
-            float listBoxHeight = parent.Size.Y;
+            float listBoxHeight = parent.Size.Y - 10;
 
             ImGui.BeginChild("FilesListBox", new Vector2(listBoxWidth, listBoxHeight - 75), ImGuiChildFlags.Border);
             ImGui.SetNextItemWidth(listBoxWidth - 15);
-            ImGui.ListBox("", ref selectedIndex, files.ToArray(), files.Count);
+            for (int i = 0; i < files.Count; i++)
+            {
+                if (ImGui.Selectable(files[i])) selectedIndex = i;
+            }
             ImGui.EndChild();
 
             ImGui.SameLine(); ImGui.Spacing(); ImGui.SameLine();
             ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 25);
-            ImGui.Image(ResourceManager.GetImGuiTexture("ui/addContent/arrows-right"), new Vector2(32));
+
+            string arrowTexture = WindowTheme.currentTheme == "dark" ? "ui/addContent/arrows-right-white" : "ui/addContent/arrows-right-black";
+            ImGui.Image(ResourceManager.GetImGuiTexture(arrowTexture), new Vector2(32));
 
             ImGui.SameLine(); ImGui.Spacing(); ImGui.SameLine();
             DrawOptions(parent);
@@ -56,7 +69,7 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
             {
                 if (files[selectedIndex].Length > 15)
                 {
-                    addButtonText = $"Add {files[selectedIndex].Substring(0, 15)}...";
+                    addButtonText = $"Add {files[selectedIndex].Substring(0, 14)}...";
                 }
                 else addButtonText = $"Add {files[selectedIndex]}";
             }
@@ -81,7 +94,6 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
 
                 ContentPanel.Refresh("last");
 
-                Globals.DEBUG_UI.GetWindow("Content Picker").TopMost = true;
                 ContentPicker.ContentPicker.Refresh();
 
                 files.RemoveAt(selectedIndex);
@@ -225,6 +237,10 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
 
                         string destPath = Path.Combine(destFolder, Path.GetFileName(imagePath));
 
+                        if (File.Exists(destPath))
+                        {
+                            File.Delete(destPath);
+                        }
                         File.Copy(imagePath, destPath, overwrite: true);
                     }
                     catch (Exception ex)
@@ -307,6 +323,11 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                         if (ext == ".ogg")
                         {
                             string destPath = Path.Combine(destFolder, Path.GetFileName(songPath));
+
+                            if (File.Exists(destPath))
+                            {
+                                File.Delete(destPath);
+                            }
                             File.Copy(songPath, destPath, overwrite: true);
                         }
                     }
@@ -328,6 +349,11 @@ namespace BraketsEditor.Editor.Contents.AddContentWindow
                         if (ext == ".wav")
                         {
                             string destPath = Path.Combine(destFolder, Path.GetFileName(soundPath));
+
+                            if (File.Exists(destPath))
+                            {
+                                File.Delete(destPath);
+                            }
                             File.Copy(soundPath, destPath, overwrite: true);
                         }
                     }

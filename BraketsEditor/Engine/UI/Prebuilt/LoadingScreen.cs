@@ -35,14 +35,14 @@ public class LoadingScreen
 
     public static void Show()
     {
-        minimumLoadingTime = new TimeSpan(0, 0, 0, 0, Randomize.IntInRange(975, 2345));
+        minimumLoadingTime = new TimeSpan(0, 0, 0, 0, Randomize.IntInRange(100, 200));
 
         loadingScreen.Show();
 
         loadStartTime = DateTime.Now;
         isLoading = true;
 
-        Globals.Camera.BackgroundColor = Color.Black;
+        //Globals.Camera.BackgroundColor = Color.Black;
     }
 
     public static async Task Hide()

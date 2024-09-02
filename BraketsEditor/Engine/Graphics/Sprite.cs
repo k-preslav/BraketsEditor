@@ -20,6 +20,7 @@ public class Sprite
     public Color Tint = Color.White;
     public bool visible = true;
     public bool drawHitbox = false;
+    public bool drawOnLoading = false;
     public Rectangle Rect;
 
     protected SpriteEffects _effects;

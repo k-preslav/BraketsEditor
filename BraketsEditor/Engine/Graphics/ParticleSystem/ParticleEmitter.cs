@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -10,13 +11,13 @@ namespace BraketsEngine;
 public class ParticleEmitterData
 {
     public ParticleData particleData = new();
-    
+
     public float angle = 0f;
     public float angleVariance = 45f;
-    
+
     public float lifeSpanMin = 0.1f;
     public float lifeSpanMax = 2f;
-    
+
     public float speedMin = 100f;
     public float speedMax = 100f;
 
@@ -35,7 +36,9 @@ public class ParticleEmitterData
     public int emitCount = 1;
     public bool visible = true;
 
-    public ParticleEmitterData() {}
+    public string textureName = "builtin/particle_default";
+
+    public ParticleEmitterData() { }
 }
 
 public class ParticleEmitter
@@ -44,19 +47,22 @@ public class ParticleEmitter
     public Vector2 Position;
     public int Layer;
 
+    internal bool drawOnLoading = false;
+    
     private readonly ParticleEmitterData _emitterData;
     private float _intervalLeft;
 
     List<Particle> particles = new List<Particle>();
     private bool enabled = true;
 
-    public ParticleEmitter(string name, Vector2 pos, ParticleEmitterData particleEmitterData, int layer)
+    public ParticleEmitter(string name, Vector2 pos, ParticleEmitterData particleEmitterData, int layer, bool drawOnLoading = false)
     {
         this.Name = name;
         this.Position = pos;
         this.Layer = layer;
         this.enabled = true;
-     
+        this.drawOnLoading = drawOnLoading;
+
         _emitterData = particleEmitterData;
         _intervalLeft = particleEmitterData.interval;
 
@@ -74,11 +80,13 @@ public class ParticleEmitter
         particleData.colorEnd = _emitterData.colorEnd;
         particleData.opacityStart = _emitterData.opacityStart;
         particleData.opacityEnd = _emitterData.opacityEnd;
+        particleData.textureName = _emitterData.textureName;
 
         float r = (float)(new Random().NextDouble() * 2) - 1;
         particleData.angle = _emitterData.angleVariance * r;
 
         Particle p = new Particle(Position, particleData, this.Layer);
+        p.drawOnLoading = drawOnLoading;
         particles.Add(p);
     }
 
@@ -98,12 +106,30 @@ public class ParticleEmitter
         SetVisible(false);
     }
 
+    public void ModifyParticleDataProp(string fieldName, object value)
+    {
+        Type emitterDataType = _emitterData.GetType();
+        FieldInfo field = emitterDataType.GetField(fieldName);
+
+        if (field != null)
+        {
+            object convertedValue = Convert.ChangeType(value, field.FieldType);
+            field.SetValue(_emitterData, convertedValue);
+        }
+        else
+        {
+            Debug.Warning($"Field '{fieldName}' of {_emitterData} not found");
+        }
+    }
+
+
     public void Unload()
     {
         foreach (var p in particles.ToList())
         {
             p.DestroySelf();
         }
+        particles.Clear();
     }
 
     public void Update()
@@ -114,7 +140,7 @@ public class ParticleEmitter
             _intervalLeft += _emitterData.interval;
             for (int i = 0; i < _emitterData.emitCount; i++)
             {
-                if (_emitterData.visible) 
+                if (_emitterData.visible)
                     Emit();
             }
         }
