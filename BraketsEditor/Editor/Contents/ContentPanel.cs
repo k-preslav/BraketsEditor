@@ -1,4 +1,5 @@
 ﻿using BraketsEngine;
+using BraketsPluginIntegration;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BraketsEditor.Editor;
+namespace BraketsEditor;
 
 public class ContentPanel
 {
@@ -23,22 +24,24 @@ public class ContentPanel
 
     static int parentWidth = 300;
 
+    static DebugWindow win;
+
     public static void Create()
     {
-        PluginAbstraction.MakeWindow("Content", (window) =>
+        win = PluginAbstraction.MakeWindow("Content", () =>
         {
-            ContentPanel.Draw(window);
+            ContentPanel.Draw();
         }, () => { }, _flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoBringToFrontOnFocus,
                       _overrideSize:true, _overridePos:true);
         ContentPanel.Refresh("/");
     }
 
-    public static void Draw(DebugWindow parent)
+    public static void Draw()
     {
-        parent.Pos = new Vector2(0, Globals.APP_Height / 2);
-        parent.Size = new Vector2(parentWidth, Globals.APP_Height / 2);
+        win.Pos = new Vector2(0, Globals.APP_Height / 2);
+        win.Size = new Vector2(parentWidth, Globals.APP_Height / 2);
 
-        bool hasScrollbar = content.Count * (listLayout ? 36 : 70) > parent.Size.Y;
+        bool hasScrollbar = content.Count * (listLayout ? 36 : 70) > win.Size.Y;
 
         ImGui.SeparatorText("Content");
 
@@ -80,13 +83,13 @@ public class ContentPanel
         for (int i = 0; i < content.Count; i++)
         {
             if (listLayout)
-                content[i].DrawList(parent);
+                content[i].DrawList(win);
             else
             {
                 ImGui.PushID($"content{i}");
                 ImGui.BeginGroup();
                 ImGui.SetCursorPosX(ImGui.GetCursorPosX() + (hasScrollbar ? 0 : 5));
-                content[i].DrawGrid(parent);
+                content[i].DrawGrid(win);
                 ImGui.EndGroup();
                 ImGui.PopID();
 

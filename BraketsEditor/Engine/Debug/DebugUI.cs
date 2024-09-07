@@ -17,14 +17,13 @@ namespace BraketsEngine;
 
 public class DebugWindow
 {
-    public Action<DebugWindow> OnDraw;
+    public Action OnDraw;
     public Action OnUpdate;
     public string Name;
     public Vector2 Pos;
     public Vector2 Size;
     public bool Visible;
-    public bool TopMost;
-    
+
     private ImGuiWindowFlags _flags;
     private bool _overridePos;
     private bool _overrideSize;
@@ -32,7 +31,7 @@ public class DebugWindow
 
     public DebugWindow(string name, bool overridePos=false, bool overrideSize=false, 
         int posx=-1, int posy=-1, int width=320, int height=180, bool closable=false,
-        bool visible=true, bool topmost=false, ImGuiWindowFlags flags=ImGuiWindowFlags.None)
+        bool visible=true, ImGuiWindowFlags flags=ImGuiWindowFlags.None)
     {
         if (posx == -1) posx = Globals.APP_Width / 2 - width / 2;
         if (posy == -1) posy = Globals.APP_Height / 2 - height / 2;
@@ -46,7 +45,6 @@ public class DebugWindow
         this._overrideSize = overrideSize;
 
         this.Visible = visible;
-        this.TopMost = topmost;
         this._closable = closable;
     }
 
@@ -66,16 +64,8 @@ public class DebugWindow
             if (_closable) ImGui.Begin(this.Name, ref Visible, this._flags);
             else ImGui.Begin(this.Name, this._flags);
 
-            if (this.TopMost)
-            {
-                if (!ImGui.IsWindowFocused())
-                {
-                    ImGui.SetWindowFocus();
-                }
-            }
-
             ImGui.PushFont(font);
-            OnDraw?.Invoke(this);
+            OnDraw?.Invoke();
             ImGui.PopFont();
             ImGui.End();
         }

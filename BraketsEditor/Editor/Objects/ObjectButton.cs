@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Numerics;
-using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 

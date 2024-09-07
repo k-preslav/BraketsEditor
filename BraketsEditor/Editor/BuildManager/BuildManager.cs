@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using BraketsEditor.Editor;
 using BraketsEngine;
 
 namespace BraketsEditor;
@@ -12,6 +11,8 @@ public class BuildManager
 {
     public static bool isDoneBuilding = true;
     public static bool isDoneRunning = true;
+
+    public static bool isRunningDebug = true;
 
     private static Process runProcess;
     public static string runButtonText = "Run";
@@ -60,7 +61,7 @@ public class BuildManager
     {
         if (!isDoneRunning) 
         {
-            await Globals.EditorManager.bridgeServer.SendMessageToClient("stop");
+            await Globals.EditorManager.gameDebug_bridgeServer.SendMessageToClient("stop");
             Globals.EditorManager.Status = "Stopping...";
             await Task.Delay(100);
 
@@ -69,6 +70,7 @@ public class BuildManager
             return;
         }
 
+        isRunningDebug = true;
         isDoneRunning = false;
 
         DiagnosticsView.ResetFull();
@@ -80,7 +82,7 @@ public class BuildManager
             StartInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
-                Arguments = $"run --project {Globals.projectPath} bridge localhost 8000 {path} {diagnosticRefreshRate}",
+                Arguments = $"run --project {Globals.projectPath} bridge localhost {Globals.EditorManager.gameDebug_bridgeServer.PORT} {path} {diagnosticRefreshRate}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -150,6 +152,7 @@ public class BuildManager
         Globals.EditorManager.Status = "Starting Run Service...";
 
         isDoneRunning = false;
+        isRunningDebug = false;
 
         using (var runProcess = new Process
         {

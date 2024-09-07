@@ -1,9 +1,6 @@
 using System.IO;
-using BraketsEditor.Editor;
 using BraketsEngine;
-using ImageMagick;
 using ImGuiNET;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BraketsEditor;
 

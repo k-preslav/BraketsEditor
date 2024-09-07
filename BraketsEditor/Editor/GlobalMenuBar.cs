@@ -1,10 +1,6 @@
-using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BraketsEditor;
 
@@ -14,6 +10,9 @@ public class GlobalMenuBar
     {
         if (ImGui.BeginMainMenuBar())
         {
+            ImGui.SetNextFrameWantCaptureKeyboard(false);
+            ImGui.SetNextFrameWantCaptureMouse(false);
+
             if (ImGui.BeginMenu("File"))
             {
                 if (ImGui.MenuItem("New..."))
@@ -77,6 +76,14 @@ public class GlobalMenuBar
                 }
                 ImGui.EndMenu();
             }
+            if (ImGui.BeginMenu("Plugins"))
+            {
+                if (ImGui.MenuItem("Plugin Manager"))
+                {
+                    PluginManagerWin.Create();
+                }
+                ImGui.EndMenu();
+            }
             if (ImGui.BeginMenu("Tools"))
             {
                 if (ImGui.MenuItem("Diagnostics"))
@@ -93,7 +100,8 @@ public class GlobalMenuBar
                     MainToolsWindow.AddTab(new ToolTab
                     {
                         name = "Level Editor",
-                        view = DiagnosticsView.Draw
+                        view = LevelEditor.Draw,
+                        update = LevelEditor.Update
                     });
                 }
                 if (ImGui.MenuItem("Tilemap Editor"))
@@ -126,7 +134,7 @@ public class GlobalMenuBar
             ImGui.SetCursorPosX((ImGui.GetWindowSize().X - 300) / 2);
 
             if (!BuildManager.isDoneRunning) ImGui.BeginDisabled();
-            if (ImGui.ImageButton("###runButton", ResourceManager.GetImGuiTexture("ui/run/run"), new Vector2(18).ToNumerics()))
+            if (ImGui.ImageButton("###runButton", ResourceManager.GetImGuiTexture("ui/run/run"), new Vector2(20).ToNumerics()))
             {
                 if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
                 {
@@ -142,7 +150,9 @@ public class GlobalMenuBar
             }
             if (!BuildManager.isDoneRunning) ImGui.EndDisabled();
 
-            if (ImGui.ImageButton("###runDebugButton", ResourceManager.GetImGuiTexture(!BuildManager.isDoneRunning ? "ui/run/stop" : "ui/run/runDebug"), new Vector2(18).ToNumerics()))
+
+            if (!BuildManager.isDoneRunning && !BuildManager.isRunningDebug) ImGui.BeginDisabled();
+            if (ImGui.ImageButton("###runDebugButton", ResourceManager.GetImGuiTexture(!BuildManager.isDoneRunning ? "ui/run/stop" : "ui/run/runDebug"), new Vector2(20).ToNumerics()))
             {
                 if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
                 {
@@ -155,6 +165,7 @@ public class GlobalMenuBar
                     BuildManager.RunDebug(); // If it is performed while running, it will stop current run
                 }
             }
+            ImGui.EndDisabled();
             BuildManager.runningTimer += Globals.DEBUG_DT;
             ImGui.PopStyleVar(2);
 
@@ -173,6 +184,7 @@ public class GlobalMenuBar
 
             Globals.DEBUG_UI_MENUBAR_SIZE_X = (int)ImGui.GetWindowSize().X;
             Globals.DEBUG_UI_MENUBAR_SIZE_Y = (int)ImGui.GetWindowSize().Y;
+
             ImGui.EndMainMenuBar();
         }
     }

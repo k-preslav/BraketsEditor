@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BraketsEditor.Editor;
+namespace BraketsEditor;
 
 internal class Throbber
 {

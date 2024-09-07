@@ -68,4 +68,10 @@ public class Input
 
         return false;
     }
+
+    public static float GetScrollDelta()
+    {
+        float scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
+        return MathHelper.Clamp(scrollDelta / 120.0f, -1.0f, 1.0f);
+    }
 }

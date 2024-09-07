@@ -125,9 +125,9 @@ public class ParticleEmitter
 
     public void Unload()
     {
-        foreach (var p in particles.ToList())
+        for (int i = particles.Count; i < 0; i--)
         {
-            p.DestroySelf();
+            particles[i].DestroySelf();
         }
         particles.Clear();
     }

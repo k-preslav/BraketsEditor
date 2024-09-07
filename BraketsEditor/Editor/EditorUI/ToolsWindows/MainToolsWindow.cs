@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BraketsEditor.Editor;
+using BraketsPluginIntegration;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
@@ -20,16 +20,18 @@ public class MainToolsWindow
 {
     public static List<ToolTab> tabs = new List<ToolTab>();
 
+    static DebugWindow parent;
+
     public static void Create()
     {
-        PluginAbstraction.MakeWindow("Tools", (window) =>
+        parent = PluginAbstraction.MakeWindow("Tools", () =>
         {
-            MainToolsWindow.Draw(window);
+            MainToolsWindow.Draw();
         }, () => { }, _flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoBringToFrontOnFocus, 
                       _overridePos: true, _overrideSize: true);
     }
 
-    public static void Draw(DebugWindow parent)
+    public static void Draw()
     {
         parent.Pos = new Vector2(Globals.DEBUG_UI.GetWindow("Objects").Size.X, Globals.DEBUG_UI_MENUBAR_SIZE_Y);
         parent.Size = new Vector2(Globals.APP_Width - parent.Pos.X, Globals.APP_Height - Globals.DEBUG_UI_MENUBAR_SIZE_Y);

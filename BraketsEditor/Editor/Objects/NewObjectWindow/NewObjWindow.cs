@@ -1,10 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using BraketsEditor.Editor;
-using BraketsEditor.Editor.Contents.ContentPicker;
-using BraketsEditor.Editor.Utils;
+using BraketsPluginIntegration;
 using BraketsEngine;
 using ImageMagick;
 using ImGuiNET;
@@ -39,16 +36,18 @@ public class NewObjectWindow
 
     private static string objParticleData = "";
 
+    static DebugWindow parent;
+
     public static void Create()
     {
-        PluginAbstraction.MakeWindow("Add new Object", (window) =>
+        parent = PluginAbstraction.MakeWindow("Add new Object", () =>
         {
-            NewObjectWindow.Draw(window);
+            NewObjectWindow.Draw();
         }, () => { }, _flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize, 
         _closable: false, _visible: false, _widht: 465, _height: 675, _overrideSize:true);
     }
 
-    public static void Draw(DebugWindow parent)
+    public static void Draw()
     {
         if (ImGui.ListBox("", ref _selectedItem, _items, _items.Length))
         {
@@ -120,10 +119,8 @@ public class NewObjectWindow
         ImGui.Text(objTexture != string.Empty ? objTexture : "none");
         if (ImGui.Button("Pick ...", new Vector2(75, 35)))
         {
-            parent.TopMost = false;
             ContentPicker.Show(ContentType.Image, (string textureName) =>
             {
-                parent.TopMost = true;
                 objTexture = textureName;
             });
         }
@@ -161,10 +158,8 @@ public class NewObjectWindow
 
         if (ImGui.Button("Pick ...", new Vector2(75, 35)))
         {
-            parent.TopMost = false;
             ContentPicker.Show(ContentType.Particles, (string particlesName) =>
             {
-                parent.TopMost = true;
                 objParticleData = particlesName;
 
                 ParticleEditor.Init(name:particlesName, refreshRT:true);

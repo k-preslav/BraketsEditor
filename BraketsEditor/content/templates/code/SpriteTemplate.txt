@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using BraketsEngine;
 
@@ -6,14 +7,16 @@ namespace &NAMESPACE&;
 public class &NAME& : Sprite
 {
     public &NAME&()
-    : base("&TAG&", new Vector2(&POSX&, &POSY&), "&TEXTURE_NAME&", &LAYER&, true)
-    {
+    : base("&TAG&", "&TEXTURE_NAME&", &LAYER&, true) { }
+	
+	public override async Task Init()
+	{
 		&SMU&
 		&DOL&
 		&SCALE&
-    }
+	}
 
-    public override void Update(float dt)
+    public override void Update()
     {
 
     }

@@ -1,20 +1,12 @@
-﻿using BraketsEditor.Editor.Contents.ContentPicker;
-using BraketsEditor.Editor.Utils;
-using BraketsEditor.Engine;
+﻿using BraketsEditor.Engine;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
-namespace BraketsEditor.Editor;
+namespace BraketsEditor;
 
 public class ParticleEditor
 {
@@ -338,7 +330,7 @@ public class ParticleEditor
         }
 
         string path = $"{Path.Combine(Globals.projectContentFolderPath, "particles", emitterName)}.particles";
-        if (!Path.Exists(path))
+        if (!File.Exists(path))
         {
             Debug.Error("Path not found!");
             new MessageBox("Path not found!").Show();

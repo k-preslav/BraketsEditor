@@ -15,7 +15,7 @@ public class MessageBox : DebugWindow
     private Action<int> callback;
 
     public MessageBox(string message, string option1="Ok", string option2="", Action<int> callback=null) 
-        : base("Attention", overridePos:true, overrideSize:true, visible: false, topmost: true, 
+        : base("Attention", overridePos:true, overrideSize:true, visible: false, 
             flags: ImGuiWindowFlags.Modal | ImGuiWindowFlags.AlwaysAutoResize)
     {
         base.Size = new Vector2(ImGui.CalcTextSize(message).X + 35, 120);
@@ -34,7 +34,7 @@ public class MessageBox : DebugWindow
         OnDraw += Draw;
     }
 
-    public void Draw(DebugWindow parent)
+    public void Draw()
     {
         ImGui.TextWrapped(message);
         

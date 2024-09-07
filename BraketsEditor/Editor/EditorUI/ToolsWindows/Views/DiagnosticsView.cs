@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using BraketsEditor.Editor;
 using BraketsEngine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BraketsEditor;
 public class DiagnosticsView
@@ -200,20 +197,19 @@ public class DiagnosticsView
         {
             Globals.EditorManager.Status = "Starting Run Service...";
             Throbber.visible = true;
-            
+
             return;
         }
 
         Throbber.visible = false;
 
-        int hours = (int)TimeSpan.FromSeconds(BuildManager.runningTimer).TotalHours;
-        int minutes = (int)TimeSpan.FromSeconds(BuildManager.runningTimer).TotalMinutes;
-        int seconds = (int)TimeSpan.FromSeconds(BuildManager.runningTimer).TotalSeconds;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(BuildManager.runningTimer);
+        int hours = timeSpan.Hours;
+        int minutes = timeSpan.Minutes;
+        int seconds = timeSpan.Seconds;
 
-        Globals.EditorManager.Status = $"Application Running... " +
-            $"{(hours > 0 ? ($"{hours:00}:") : "")}" +
-            $"{minutes:00}:" +
-            $"{seconds:00}";
+        if (hours > 0) Globals.EditorManager.Status = $"Application Running... {timeSpan:hh\\:mm\\:ss}";
+        else Globals.EditorManager.Status = $"Application Running... {timeSpan:mm\\:ss}";
     }
 
     static void DrawLog(bool full)
@@ -255,7 +251,10 @@ public class DiagnosticsView
                 else if (message.ToLower().Contains("fatal"))
                     ImGui.TextColored(new Vector4(1, 0, 0, 1).ToNumerics(), message);
                 else if (message.ToLower().Contains("warning"))
-                    ImGui.TextColored(new Vector4(1, 1, 0, 1).ToNumerics(), message);
+                    ImGui.TextColored(
+                        WindowTheme.currentTheme == "dark" ? Color.Yellow.ToVector4().ToNumerics()
+                        : Color.Orange.ToVector4().ToNumerics(), message
+                    );
                 else
                     ImGui.TextColored(
                         WindowTheme.currentTheme == "dark" ? Color.LightCyan.ToVector4().ToNumerics()

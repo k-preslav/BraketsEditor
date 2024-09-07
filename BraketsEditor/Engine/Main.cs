@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using BraketsEditor;
-using BraketsEditor.Editor;
-using BraketsEditor.Editor.Contents.AddContentWindow;
-using FontStashSharp;
-using ImageMagick;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input; 
@@ -86,10 +81,10 @@ public class Main : Game
         RenderTarget = new RenderTarget2D(GraphicsDevice, widht, height, false, SurfaceFormat.Color, DepthFormat.None);
     }
 
-    protected override void LoadContent()
+    protected override async void LoadContent()
     {
         Debug.Log("Starting EditorManager...", this);
-        _gameManager.Start();
+        await _gameManager.Start();
     }
 
     protected override void Update(GameTime gameTime)
@@ -126,6 +121,7 @@ public class Main : Game
             sp.Update(dt);
             sp.UpdateRect();
         }
+
         base.Update(gameTime);
     }
 

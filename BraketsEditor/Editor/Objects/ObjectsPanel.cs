@@ -1,14 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
-using System.Security.Principal;
 using System.Text.RegularExpressions;
-using System.Transactions;
-using BraketsEditor.Editor;
+using BraketsPluginIntegration;
 using BraketsEngine;
-using FontStashSharp.Rasterizers.StbTrueTypeSharp;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
 
@@ -18,17 +12,19 @@ public class ObjectsPanel
 {
     static List<ObjectButton> objects = new List<ObjectButton>();
 
+    static DebugWindow parent;
+
     public static void Create()
     {
-        PluginAbstraction.MakeWindow("Objects", (window) =>
+        parent = PluginAbstraction.MakeWindow("Objects", () =>
         {
-            ObjectsPanel.Draw(window);
+            ObjectsPanel.Draw();
         }, () => { }, _flags: ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoBringToFrontOnFocus,
                     _overridePos:true, _overrideSize:true);
         ObjectsPanel.Refresh();
     }
 
-    public static void Draw(DebugWindow parent)
+    public static void Draw()
     {
         parent.Pos = new Vector2(0, Globals.DEBUG_UI_MENUBAR_SIZE_Y);
         parent.Size = new Vector2(300, Globals.APP_Height / 2 - Globals.DEBUG_UI_MENUBAR_SIZE_Y);

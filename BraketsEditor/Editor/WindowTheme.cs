@@ -63,7 +63,7 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.FrameBgActive] = new Vector4(0.3006134033203125f, 0.6492553353309631f, 0.8755365014076233f, 0.3004291653633118f);
         style.Colors[(int)ImGuiCol.TitleBg] = new Vector4(0.1330472230911255f, 0.1330458968877792f, 0.1330458968877792f, 1.0f);
         style.Colors[(int)ImGuiCol.TitleBgActive] = new Vector4(0.124462254345417f, 0.1244629099965096f, 0.1244634985923767f, 1.0f);
-        style.Colors[(int)ImGuiCol.TitleBgCollapsed] = new Vector4(0.0f, 0.0f, 0.0f, 0.5099999904632568f);
+        style.Colors[(int)ImGuiCol.TitleBgCollapsed] = new Vector4(0.1330472230911255f, 0.1330458968877792f, 0.1330458968877792f, 1.0f);
         style.Colors[(int)ImGuiCol.MenuBarBg] = new Vector4(0.1459227204322815f, 0.1459212601184845f, 0.1459212601184845f, 1.0f);
         style.Colors[(int)ImGuiCol.ScrollbarBg] = new Vector4(0.2145922780036926f, 0.2145901322364807f, 0.2145901322364807f, 1.0f);
         style.Colors[(int)ImGuiCol.ScrollbarGrab] = new Vector4(0.3819742202758789f, 0.3819704055786133f, 0.3819704055786133f, 1.0f);
@@ -155,7 +155,7 @@ public class WindowTheme
         style.Colors[(int)ImGuiCol.FrameBgActive] = new Vector4(0.3004291653633118f, 0.6894875764846802f, 1.0f, 1.0f);
         style.Colors[(int)ImGuiCol.TitleBg] = new Vector4(1.0f, 0.9999899864196777f, 0.9999899864196777f, 1.0f);
         style.Colors[(int)ImGuiCol.TitleBgActive] = new Vector4(0.9999899864196777f, 0.9999938607215881f, 1.0f, 1.0f);
-        style.Colors[(int)ImGuiCol.TitleBgCollapsed] = new Vector4(0.0f, 0.0f, 0.0f, 0.5099999904632568f);
+        style.Colors[(int)ImGuiCol.TitleBgCollapsed] = new Vector4(1.0f, 0.9999899864196777f, 0.9999899864196777f, 1.0f);
         style.Colors[(int)ImGuiCol.MenuBarBg] = new Vector4(0.8588235378265381f, 0.8588235378265381f, 0.8588235378265381f, 1.0f);
         style.Colors[(int)ImGuiCol.ScrollbarBg] = new Vector4(0.8588235378265381f, 0.8588235378265381f, 0.8588235378265381f, 1.0f);
         style.Colors[(int)ImGuiCol.ScrollbarGrab] = new Vector4(0.686274528503418f, 0.686274528503418f, 0.686274528503418f, 1.0f);

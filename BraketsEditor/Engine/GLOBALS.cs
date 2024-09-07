@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using BraketsPluginIntegration;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -56,13 +58,13 @@ public static class Globals
     public static string projectContentFolderPath = $"{projectPath}/content/";
     public static bool IS_DEV_BUILD = true;
 
+    public static int projectViewportWidth = 1920;
+    public static int projectViewportHeight = 1080;
+    public static Vector4 projectViewportColor = Color.MediumSeaGreen.ToVector4();
+
     #endregion
 
     #region BRIDGE
-    public static BridgeClient BRIDGE_Client;
-    public static bool BRIDGE_Run = false;
-    public static string BRIDGE_Hostname = "";
-    public static int BRIDGE_Port = 0;
-    public static string BRIDGE_SERVER_CurrentMessage = "";
+    public static BridgeServer GameDebugBridgeServer;
     #endregion
 }

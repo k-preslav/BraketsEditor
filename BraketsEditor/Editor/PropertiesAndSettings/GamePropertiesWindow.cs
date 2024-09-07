@@ -1,35 +1,35 @@
-
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using BraketsEditor.Editor;
+using BraketsPluginIntegration;
 using BraketsEngine;
 using ImGuiNET;
+using BraketsEditor.Engine;
 
 namespace BraketsEditor;
 
 public class GamePropertiesWindow
 {
-    static string title = Globals.projectName, 
+    static string title = Globals.projectName,
                 version = "",
                 width = "",
-                height = "";
+                height = "",
+                view_width = "",
+                view_height = "";
     static bool resize = true,
                 vsync = true;
 
+    static DebugWindow parent;
+
     public static void Create()
     {
-        PluginAbstraction.MakeWindow("Game Properties", (window) =>
+        parent = PluginAbstraction.MakeWindow("Game Properties", () =>
         {
-            GamePropertiesWindow.Draw(window);
-        }, () => { }, _flags: ImGuiWindowFlags.NoCollapse, _closable: true, _visible: false, _widht: 465, _height: 635, _overrideSize:true);
+            Draw();
+        }, () => { }, _flags: ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize, _closable: true, _visible: false, _widht: 465, _height: 660, _overrideSize:true);
     }
 
-    public static void Draw(DebugWindow parent)
+    public static void Draw()
     {
-        parent.Size = new Vector2(385, 485);
-        parent.Pos = new Vector2(Globals.APP_Width / 2 - parent.Size.X / 2, Globals.APP_Height / 2 - parent.Size.Y / 2);
-
         ImGui.SeparatorText("General");
         ImGui.SetNextItemWidth(200);
         ImGui.InputText("Game Title", ref title, 32);
@@ -40,17 +40,32 @@ public class GamePropertiesWindow
         ImGui.SeparatorText("Window Size");
         ImGui.Spacing(); 
         ImGui.SetNextItemWidth(100);
-        ImGui.InputText("Width", ref width, 4, ImGuiInputTextFlags.CharsDecimal);
+        ImGui.InputText("Win Width", ref width, 4, ImGuiInputTextFlags.CharsDecimal);
         ImGui.SetNextItemWidth(100);
-        ImGui.InputText("Height", ref height, 4, ImGuiInputTextFlags.CharsDecimal);
+        ImGui.InputText("Win Height", ref height, 4, ImGuiInputTextFlags.CharsDecimal);
+
+        ImGui.Spacing();
+        ImGui.SeparatorText("Viewport Settings");
+        ImGui.Spacing();
+        ImGui.SetNextItemWidth(100);
+        ImGui.InputText("View Width", ref view_width, 4, ImGuiInputTextFlags.CharsDecimal);
+        ImGui.SetNextItemWidth(100);
+        ImGui.InputText("View Height", ref view_height, 4, ImGuiInputTextFlags.CharsDecimal);
+        ImGui.SetNextItemWidth(250);
+        Vector4 viewportColor = Globals.projectViewportColor.ToNumerics();
+        ImGui.ColorEdit4("Camera Color", ref viewportColor);
+        Globals.projectViewportColor = viewportColor;
 
         ImGui.Spacing();
         ImGui.SeparatorText("Window Options");
         ImGui.Spacing(); 
         ImGui.Checkbox("Resizable", ref resize);
         ImGui.Checkbox("VSync", ref vsync);
-        
-        ImGui.SetCursorPos(new Vector2(parent.Size.X - 115, parent.Size.Y - 50));
+
+        ImGui.Spacing();
+        ImGui.Separator();
+        ImGui.Spacing();
+        ImGui.SetCursorPos(new Vector2(parent.Size.X - 110, ImGui.GetWindowHeight() - 45));
         WindowTheme.PushAccent();
         if (ImGui.Button("Save", new Vector2(100, 35)))
         {
@@ -64,14 +79,20 @@ public class GamePropertiesWindow
     {
         string path = $"{Globals.projectPath}/game.properties";
         string[] data = new string[] {
-            $"engine_ver,{Globals.APP_Version}",
-            $"app_ver,{version}", 
-            $"app_title,{title}", 
-            $"app_width,{width}", 
-            $"app_height,{height}",
-            $"app_resizable,{resize}",
-            $"app_vsync,{vsync}"
+            $"engine_ver:{Globals.APP_Version}",
+            $"app_ver:{version}", 
+            $"app_title:{title}", 
+            $"app_width:{width}", 
+            $"app_height:{height}",
+            $"app_view_width:{view_width}",
+            $"app_view_height:{view_height}",
+            $"app_view_color:{Globals.projectViewportColor.ToNumerics()}",
+            $"app_resizable:{resize}",
+            $"app_vsync:{vsync}"
         };
+
+        Globals.projectViewportWidth = int.Parse(view_width);
+        Globals.projectViewportHeight = int.Parse(view_height);
 
         await File.WriteAllLinesAsync(path, data);
         Debug.Log("Saved game properties.");
@@ -85,8 +106,8 @@ public class GamePropertiesWindow
 
         foreach (string line in data)
         {
-            string key = line.Split(",")[0];
-            string value = line.Split(",")[1];
+            string key = line.Split(":")[0];
+            string value = line.Split(":")[1];
 
             switch (key)
             {
@@ -102,6 +123,15 @@ public class GamePropertiesWindow
                 case "app_height":
                     height = value;
                     break;
+                case "app_view_width":
+                    view_width = value;
+                    break;
+                case "app_view_height":
+                    view_height = value;
+                    break;
+                case "app_view_color":
+                    Globals.projectViewportColor = Parser.ParseVec4(value);
+                    break;
                 case "app_resizable":
                     resize = bool.Parse(value);
                     break;
@@ -110,6 +140,9 @@ public class GamePropertiesWindow
                     break;
             }
         }
+
+        Globals.projectViewportWidth = int.Parse(view_width);
+        Globals.projectViewportHeight = int.Parse(view_height);
 
         Debug.Log("Loaded game properties.");
     }
