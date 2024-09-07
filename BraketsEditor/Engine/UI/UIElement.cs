@@ -25,7 +25,7 @@ public abstract class UIElement : Sprite
     public string Text;
     public Color BackgroundColor = Color.White;
     public Color ForegroundColor = Color.Black;
-    public Action OnClick;
+    public Action<object> OnClick;
     public bool Clickable = true;
 
     public Vector2 Size;
@@ -34,6 +34,7 @@ public abstract class UIElement : Sprite
     private string _curFontName;
 
     internal Action CustomUpdate;
+    internal bool isHovering = false;
 
     public UIAllign allign { get; private set; }
     public Vector2 margin { get; private set; }
@@ -121,12 +122,15 @@ public abstract class UIElement : Sprite
 
         if (this.Clickable)
         {
+            isHovering = false;
             if (this.Rect.Intersects(
                 new Rectangle(Input.GetMousePositionScreen().ToPoint(), new Point(1, 1))
             ))
             {
+                isHovering = true;
+
                 if (Input.IsMouseClicked(0))
-                    OnClick?.Invoke();
+                    OnClick?.Invoke(this);
             }
         }
 
@@ -250,6 +254,13 @@ public abstract class UIElement : Sprite
 
     public Vector2 GetTextSize()
     {
-        return _font.MeasureString(Text);
+        try
+        {
+            return _font.MeasureString(Text);
+        }
+        catch
+        {
+            return GetTextSize();
+        }
     }
 }

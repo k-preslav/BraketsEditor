@@ -102,7 +102,6 @@ public class DebugUI
 
         Renderer.BeginLayout(gameTime);
 
-        _menuBar?.Invoke();
         foreach (var window in _windows.ToList())
         {
             window.Draw(_debug_windows_font);
@@ -122,7 +121,6 @@ public class DebugUI
     {
         _windows.Add(win);
     }
-    public void AddMenuBar(Action menuBar) => _menuBar = menuBar;
     public DebugWindow GetWindow(string name)
     {
         foreach (var window in _windows)

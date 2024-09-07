@@ -39,4 +39,9 @@ public class PluginAbstraction
 
         MainToolsWindow.AddTab(tab);
     }
+
+    public static void AddMenuToMenuBar(string name) => Globals.GlobalMenuBar.AddMenu(name);
+    public static void AddSubMenuToMenuBar(string name, string menu, Action<object> click) => Globals.GlobalMenuBar.AddSubMenu(name, menu, click);
+    public static void AddControlButton(string tag, string imageName, Action<object> click) => Globals.GlobalMenuBar.AddControlButton(tag, imageName, click);
+    public static UIImage FindControlButton(string tag) => Globals.GlobalMenuBar.GetControlButton(tag);
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using BraketsEngine;
+using BraketsPluginIntegration;
 
 namespace BraketsEditor;
 
@@ -73,6 +74,8 @@ public class BuildManager
         isRunningDebug = true;
         isDoneRunning = false;
 
+        PluginAbstraction.FindControlButton("runDebugControl").SetImage("ui/run/stop");
+
         DiagnosticsView.ResetFull();
 
         string path = Path.GetFullPath(Globals.projectPath);
@@ -118,6 +121,8 @@ public class BuildManager
 
             isDoneRunning = true;
             runButtonText = "Run";
+
+            PluginAbstraction.FindControlButton("runDebugControl").SetImage("ui/run/runDebug");
 
             Throbber.visible = false;
             Globals.EditorManager.Status = "Ready";

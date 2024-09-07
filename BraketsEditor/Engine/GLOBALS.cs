@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using BraketsEditor;
 using BraketsPluginIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -37,9 +38,10 @@ public static class Globals
     public static string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     #endregion
 
-    #region GAME
+    #region EDITOR
     public static Camera Camera;
     public static EditorManager EditorManager;
+    public static GlobalMenuBar GlobalMenuBar;
     #endregion
 
     #region DEBUG

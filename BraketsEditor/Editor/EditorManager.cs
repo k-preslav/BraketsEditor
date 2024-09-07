@@ -19,12 +19,6 @@ public class EditorManager
 
         Globals.Camera.BackgroundColor = new Color(25, 25, 25);
 
-        unsafe {
-
-            ImGui.GetIO().NativePtr->IniFilename = null;
-            ImGui.GetIO().NativePtr->IniSavingRate = 0;
-        }
-
         Status = "Loading Editor...";
         Throbber.visible = true;
 
@@ -32,7 +26,89 @@ public class EditorManager
         loadingBox.Show();
 
         WindowTheme.Dark();
-        Globals.DEBUG_UI.AddMenuBar(GlobalMenuBar.Draw);
+        new GlobalMenuBar().Create();
+
+        Globals.GlobalMenuBar.AddMenu("File");
+        Globals.GlobalMenuBar.AddSubMenu("New...", "File", (sender) =>
+        {
+            if (Globals.IS_DEV_BUILD)
+            {
+                Debug.Warning("Cannot create new project! This is a DEV_BUILD!");
+                new MessageBox("Operation could not be completed!\nRunning a DEV_BUILD!").Show();
+                return;
+            }
+            ProjectManager.NewProject();
+        });
+        Globals.GlobalMenuBar.AddSubMenu("Open...", "File", (sender) =>
+        {
+            if (Globals.IS_DEV_BUILD)
+            {
+                Debug.Warning("Cannot open a project! This is a DEV_BUILD!");
+                new MessageBox("Operation could not be completed!\nRunning a DEV_BUILD!").Show();
+                return;
+            }
+
+            ProjectManager.OpenProject();
+        });
+        Globals.GlobalMenuBar.AddSubMenu("Open 'Content' in File Explorer", "File", (sender) =>
+        {
+            OpenInExplorer.OpenContentFolder();
+        });
+        Globals.GlobalMenuBar.AddSubMenu("Open 'Game' in File Explorer", "File", (sender) =>
+        {
+            OpenInExplorer.OpenGameFolder();
+        });
+        Globals.GlobalMenuBar.AddSubMenu("Exit", "File", (sender) =>
+        {
+            Globals.ENGINE_Main.Exit();
+        });
+
+        Globals.GlobalMenuBar.AddMenu("Edit");
+        Globals.GlobalMenuBar.AddSubMenu("Game Properties", "Edit", (sender) =>
+        {
+            GamePropertiesWindow.LoadProperties();
+            Globals.DEBUG_UI.GetWindow("Game Properties").Visible = true;
+        });
+        Globals.GlobalMenuBar.AddSubMenu("Preferences", "Edit", (sender) =>
+        {
+            Debug.Log("Open game preferences");
+        });
+
+        Globals.GlobalMenuBar.AddMenu("Addons");
+        Globals.GlobalMenuBar.AddSubMenu("Extension Manager", "Addons", (sender) =>
+        {
+            PluginManagerWin.Create();
+        });
+
+        Globals.GlobalMenuBar.AddControlButton("runControl", "ui/run/run", (sender) =>
+        {
+            if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
+            {
+                BuildManager.OnRunBtnClick(false);
+            }
+            else
+            {
+                Throbber.visible = false;
+                BuildManager.runButtonText = "Run";
+
+                BuildManager.Run(); // If it is performed while running, it will stop current run
+            }
+        });
+        Globals.GlobalMenuBar.AddControlButton("runDebugControl", "ui/run/runDebug", (sender) =>
+        {
+            if (BuildManager.isDoneBuilding && BuildManager.isDoneRunning)
+            {
+                BuildManager.OnRunBtnClick(true);
+                ((UIImage)sender).SetImage("ui/run/stop");
+            }
+            else
+            {
+                Throbber.visible = false;
+                BuildManager.runButtonText = "Run";
+                ((UIImage)sender).SetImage("ui/run/runDebug");
+                BuildManager.RunDebug(); // If it is performed while running, it will stop current run
+            }
+        });
 
         loadingBox.SetMessage("Creating Panels and Windows...");
         loadingBox.SetValue(10);
@@ -108,11 +184,19 @@ public class EditorManager
         {
             BuildManager.OnRunBtnClick(true);
         }
+
+        if (BuildManager.isRunningDebug)
+        {
+            BuildManager.runningTimer += dt;
+        }
+
+        Globals.GlobalMenuBar.Update();
     }
 
     internal void OnResize()
     {
         ParticleEditor.OnAppResize();
+        Globals.GlobalMenuBar?.OnAppResize();
     }
 
     internal async void Stop()
