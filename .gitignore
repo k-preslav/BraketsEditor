@@ -4,6 +4,8 @@
 /MonoGame.ImGuiNet/obj/
 /MonoGame.ImGuiNet/bin/
 
+/.vs/
+
 # Ignore user-specific files
 *.user
 *.suo
